@@ -1,0 +1,65 @@
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages #
+############
+# it's better to exclude all build directories by default.
+bin/
+build/
+dist/
+*egg-info/
+lib/
+lib64/
+wheels/
+*.egg
+*.jar
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+*.db
+
+# Virtual environment #
+#######################
+venv/
+*.venv
+*.virtualenv
+env/
+ENV/
+
+# PyInstaller #
+###############
+# Usually these files are written by a python script from a template
+# before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Jupyter Notebook #
+####################
+.ipynb_checkpoints
+*.ipynb_meta
+
+# Pycharm & VSCode #
+####################
+.idea/
+.vscode/
+*.swp
+
+# OS generated files #
+######################
+.DS_Store
+Thumbs.db
+
+# Private source #
+##################
+# config.ini
+# .env
+# .secrets/

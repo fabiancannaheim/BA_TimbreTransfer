@@ -1,0 +1,6 @@
+framework module Pods_AudioPlayerTests {
+  umbrella header "Pods-AudioPlayerTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

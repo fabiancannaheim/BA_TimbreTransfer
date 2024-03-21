@@ -1,0 +1,4 @@
+data/** filter=lfs diff=lfs merge=lfs -text
+models/** filter=lfs diff=lfs merge=lfs -text
+prototyping/spleeter/2stems/** filter=lfs diff=lfs merge=lfs -text
+prototyping/spleeter/model.tflite filter=lfs diff=lfs merge=lfs -text

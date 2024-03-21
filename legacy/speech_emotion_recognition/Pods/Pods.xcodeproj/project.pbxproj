@@ -1,0 +1,1166 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		AC559E53E13B6FBEF4F5CC310A73AFE6 /* TensorFlowLiteC */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 636D81D05741D892734E9C70745D0DB7 /* Build configuration list for PBXAggregateTarget "TensorFlowLiteC" */;
+			buildPhases = (
+				E428E9B2EB9A04CAA5BA04B652A1082B /* [CP] Copy XCFrameworks */,
+			);
+			dependencies = (
+			);
+			name = TensorFlowLiteC;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		14D1110BC2756834D0B68C69875C6D53 /* TensorFlowLiteSwift-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B1A9129D34000B243D32AE2596D8A268 /* TensorFlowLiteSwift-dummy.m */; };
+		3928FA84ED102CA275B3864C00B51DF7 /* Pods-AudioPlayer-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 726C087445B18133F03B5C50E31416B3 /* Pods-AudioPlayer-dummy.m */; };
+		3961125F658403B607768A63CD61346A /* Pods-AudioPlayerTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = CB95BCBBF568581CDF04FD3B5AFCF754 /* Pods-AudioPlayerTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3ED19E7E8E1E9301B4935088E1485772 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0706B7F60C293C48F2EA4DE1D4E5B2 /* Model.swift */; };
+		3F823987EB50CE7B87ED957FF7D03614 /* Pods-AudioPlayer-AudioPlayerUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EF143173A7D8FE5852072835038475 /* Pods-AudioPlayer-AudioPlayerUITests-dummy.m */; };
+		4119A175020802D54F061951BF27738F /* InterpreterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D037E9FF96F8652AD459AC92294D3BB0 /* InterpreterError.swift */; };
+		4E610CB869621DB3DD72CF8EC62ABDBA /* TensorFlowLiteSwift-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DC93B653FD732971513CAE4B28A4C621 /* TensorFlowLiteSwift-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		673A77557DE051D06B97203E3CC95707 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		7FC0412C6D3230B1DCA69FC318FAAE09 /* Pods-AudioPlayerTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C523DF2E6A472A0459E221F1D1CA531 /* Pods-AudioPlayerTests-dummy.m */; };
+		7FCE32576ED51F3AA72DCE2797DD874F /* Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5EC218CEC9DEA3817211367191D4353 /* Delegate.swift */; };
+		82DAD2DEAB468828FF3C328334426343 /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CB1E2E071D297EC791AA51F6352665 /* Interpreter.swift */; };
+		8EE28F220A75F086B0EF372B0E431000 /* SignatureRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29FFC0652192B91FF798C11BF0712232 /* SignatureRunner.swift */; };
+		8F24FB8332087169B77D9629F8A87AB3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		8FD6E56FA0A2147BB598C34D35BC45AF /* TensorFlowLite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4637F6E7A1811AFA3B703F8B16FDF20D /* TensorFlowLite.swift */; };
+		AAC6EE2546723B4A67E2695ECC8E1A54 /* Pods-AudioPlayer-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 67093CC8847F1FB1FDB7D7589B269B70 /* Pods-AudioPlayer-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C4A7D8A205047023275B05918FBB0BC2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		CBC685FCB3F59A50B4065A88909A12FE /* QuantizationParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7DC04747802173070709CFE0DF0258 /* QuantizationParameters.swift */; };
+		D94CC6ADEFB3C31A192F73A223A05ABA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		E3F1983C96F4D6FC26851AC02B8B4F53 /* SignatureRunnerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5F291FD083C75E25BED25BC3A9F9A0 /* SignatureRunnerError.swift */; };
+		F30EF92C5096E96D8DCC4940AFAF0B21 /* Tensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A8040D3891BB0F7BF14D17E4CB4D5A /* Tensor.swift */; };
+		FA87AAFFE3FC88A37060054A7009E4A9 /* Pods-AudioPlayer-AudioPlayerUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A5F3A73DE0BD401F77BA47BF1AC7D7 /* Pods-AudioPlayer-AudioPlayerUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		056B28A730CE139B787E617B1DB2DA2E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AC559E53E13B6FBEF4F5CC310A73AFE6;
+			remoteInfo = TensorFlowLiteC;
+		};
+		07A709C30F8608FC82FA2DF9DC64002A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AC559E53E13B6FBEF4F5CC310A73AFE6;
+			remoteInfo = TensorFlowLiteC;
+		};
+		572F58DFA3DA2ECA391427371CCF106F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 70DC5DA42DBE559A810B3417F948E574;
+			remoteInfo = "Pods-AudioPlayer";
+		};
+		D2D49A1EF9D13400C442D74AFDCC2B16 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 10418167F619D6DA72BADAD10F9EC02B;
+			remoteInfo = TensorFlowLiteSwift;
+		};
+		F239BE67C2CF745E4F3B17FB51D84DA5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AC559E53E13B6FBEF4F5CC310A73AFE6;
+			remoteInfo = TensorFlowLiteC;
+		};
+		FC55B61CA30E595668FD8C1376383F15 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 10418167F619D6DA72BADAD10F9EC02B;
+			remoteInfo = TensorFlowLiteSwift;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		00C86D957A9CB45DB54A9F09A4F4B569 /* TensorFlowLiteC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TensorFlowLiteC.debug.xcconfig; sourceTree = "<group>"; };
+		04A5F3A73DE0BD401F77BA47BF1AC7D7 /* Pods-AudioPlayer-AudioPlayerUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-AudioPlayer-AudioPlayerUITests-umbrella.h"; sourceTree = "<group>"; };
+		08EF143173A7D8FE5852072835038475 /* Pods-AudioPlayer-AudioPlayerUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-AudioPlayer-AudioPlayerUITests-dummy.m"; sourceTree = "<group>"; };
+		12A29EF6F7AA6013F9877F3F8186F786 /* TensorFlowLiteC-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "TensorFlowLiteC-xcframeworks.sh"; sourceTree = "<group>"; };
+		176806F8E71F105C5593F6A58225A548 /* Pods-AudioPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AudioPlayer.release.xcconfig"; sourceTree = "<group>"; };
+		1AC92983C0238D0816D6E58663DE9F1E /* Pods-AudioPlayer */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-AudioPlayer"; path = Pods_AudioPlayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D79D68CF20BFFF687926961F0C2B416 /* Pods-AudioPlayerTests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AudioPlayerTests-Info.plist"; sourceTree = "<group>"; };
+		29FFC0652192B91FF798C11BF0712232 /* SignatureRunner.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SignatureRunner.swift; path = tensorflow/lite/swift/Sources/SignatureRunner.swift; sourceTree = "<group>"; };
+		2F0706B7F60C293C48F2EA4DE1D4E5B2 /* Model.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Model.swift; path = tensorflow/lite/swift/Sources/Model.swift; sourceTree = "<group>"; };
+		315EAF8DA83F7431A52FA17E141134AA /* Pods-AudioPlayer-AudioPlayerUITests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AudioPlayer-AudioPlayerUITests-Info.plist"; sourceTree = "<group>"; };
+		3A0A8BF5079E5011D093523A7527D67A /* TensorFlowLiteSwift.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = TensorFlowLiteSwift.modulemap; sourceTree = "<group>"; };
+		4637F6E7A1811AFA3B703F8B16FDF20D /* TensorFlowLite.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TensorFlowLite.swift; path = tensorflow/lite/swift/Sources/TensorFlowLite.swift; sourceTree = "<group>"; };
+		56600C003A1B2F5BB3339182FA78CA30 /* Pods-AudioPlayer-AudioPlayerUITests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-AudioPlayer-AudioPlayerUITests"; path = Pods_AudioPlayer_AudioPlayerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5871589F913736F943C1E51937FC0CDB /* TensorFlowLiteC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TensorFlowLiteC.release.xcconfig; sourceTree = "<group>"; };
+		64EE00C9FE4CBD5289A174115502F7E6 /* Pods-AudioPlayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AudioPlayer.debug.xcconfig"; sourceTree = "<group>"; };
+		67093CC8847F1FB1FDB7D7589B269B70 /* Pods-AudioPlayer-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-AudioPlayer-umbrella.h"; sourceTree = "<group>"; };
+		6BA284B7D0D8C5E86CA6F05398CDFA02 /* Pods-AudioPlayer-AudioPlayerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AudioPlayer-AudioPlayerUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		6C523DF2E6A472A0459E221F1D1CA531 /* Pods-AudioPlayerTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-AudioPlayerTests-dummy.m"; sourceTree = "<group>"; };
+		726C087445B18133F03B5C50E31416B3 /* Pods-AudioPlayer-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-AudioPlayer-dummy.m"; sourceTree = "<group>"; };
+		73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		79F0B7F8E848798838A8C548D84FE76D /* Pods-AudioPlayer-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-AudioPlayer-acknowledgements.markdown"; sourceTree = "<group>"; };
+		7DDFE6BA8E3866BF8C71332032F6FD7D /* Pods-AudioPlayerTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AudioPlayerTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		84A8040D3891BB0F7BF14D17E4CB4D5A /* Tensor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Tensor.swift; path = tensorflow/lite/swift/Sources/Tensor.swift; sourceTree = "<group>"; };
+		86167F0B392919CA80A565A3E3FA2CB2 /* Pods-AudioPlayerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AudioPlayerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		8F5F291FD083C75E25BED25BC3A9F9A0 /* SignatureRunnerError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SignatureRunnerError.swift; path = tensorflow/lite/swift/Sources/SignatureRunnerError.swift; sourceTree = "<group>"; };
+		90D846536735641E2DE1E44FF48009F6 /* TensorFlowLiteSwift-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TensorFlowLiteSwift-prefix.pch"; sourceTree = "<group>"; };
+		955EBB131D703E2BB8513F643438FE91 /* Pods-AudioPlayer-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AudioPlayer-Info.plist"; sourceTree = "<group>"; };
+		9CE34CF223D471C24154F2EAC3547942 /* TensorFlowLiteSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TensorFlowLiteSwift.release.xcconfig; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9DAEA213826282EC4657F628BA61A10A /* Pods-AudioPlayer-AudioPlayerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AudioPlayer-AudioPlayerUITests.release.xcconfig"; sourceTree = "<group>"; };
+		9F4B1EAD5DFFF808AD71FF5792D4EF3F /* Pods-AudioPlayer-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AudioPlayer-acknowledgements.plist"; sourceTree = "<group>"; };
+		A5CB1E2E071D297EC791AA51F6352665 /* Interpreter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Interpreter.swift; path = tensorflow/lite/swift/Sources/Interpreter.swift; sourceTree = "<group>"; };
+		A96043ADF9931177B0445C9A5DAB4CDE /* Pods-AudioPlayerTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-AudioPlayerTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		B1A9129D34000B243D32AE2596D8A268 /* TensorFlowLiteSwift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "TensorFlowLiteSwift-dummy.m"; sourceTree = "<group>"; };
+		B2AC624F03E8FD5965E0F980BD29CD5A /* TensorFlowLiteC.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = TensorFlowLiteC.xcframework; path = Frameworks/TensorFlowLiteC.xcframework; sourceTree = "<group>"; };
+		B879F2F672A1B2588B6AF953F4200F86 /* TensorFlowLiteSwift-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "TensorFlowLiteSwift-Info.plist"; sourceTree = "<group>"; };
+		BCA68692708E1B9073272270BF2559CE /* TensorFlowLiteSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TensorFlowLiteSwift.debug.xcconfig; sourceTree = "<group>"; };
+		CA409BA0204DE2131E142BE7B2EAEDD1 /* Pods-AudioPlayerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AudioPlayerTests.release.xcconfig"; sourceTree = "<group>"; };
+		CB95BCBBF568581CDF04FD3B5AFCF754 /* Pods-AudioPlayerTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-AudioPlayerTests-umbrella.h"; sourceTree = "<group>"; };
+		CD1A2787E67121D3CA627AD51B08BFB8 /* Pods-AudioPlayerTests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-AudioPlayerTests"; path = Pods_AudioPlayerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D037E9FF96F8652AD459AC92294D3BB0 /* InterpreterError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = InterpreterError.swift; path = tensorflow/lite/swift/Sources/InterpreterError.swift; sourceTree = "<group>"; };
+		D5EC218CEC9DEA3817211367191D4353 /* Delegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Delegate.swift; path = tensorflow/lite/swift/Sources/Delegate.swift; sourceTree = "<group>"; };
+		D768A6496A255F672C6857E31BE15C7C /* Pods-AudioPlayer-AudioPlayerUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-AudioPlayer-AudioPlayerUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		DC93B653FD732971513CAE4B28A4C621 /* TensorFlowLiteSwift-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TensorFlowLiteSwift-umbrella.h"; sourceTree = "<group>"; };
+		E050CF04C80DE44E1B9CA7C205B093BA /* Pods-AudioPlayer-AudioPlayerUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-AudioPlayer-AudioPlayerUITests.modulemap"; sourceTree = "<group>"; };
+		E0B71FE13AA6B05010059EB4B8D87919 /* TensorFlowLiteSwift */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TensorFlowLiteSwift; path = TensorFlowLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E122AEAC4C5DDDDF3F272BD0CC9CD238 /* Pods-AudioPlayer.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-AudioPlayer.modulemap"; sourceTree = "<group>"; };
+		E708C318C3FF19F07393D805F0235BE3 /* Pods-AudioPlayerTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-AudioPlayerTests.modulemap"; sourceTree = "<group>"; };
+		EB7DC04747802173070709CFE0DF0258 /* QuantizationParameters.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = QuantizationParameters.swift; path = tensorflow/lite/swift/Sources/QuantizationParameters.swift; sourceTree = "<group>"; };
+		EDAB2DE13CA4EE7B18BCC632D55DD836 /* Pods-AudioPlayer-AudioPlayerUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AudioPlayer-AudioPlayerUITests-acknowledgements.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0D89B55309008173FEA6D0F7B52FF54C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				673A77557DE051D06B97203E3CC95707 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		47EFF6B54516ACA274CA42DDF1689529 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4A7D8A205047023275B05918FBB0BC2 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6390F90297EFE755F3EA6938F3D32D51 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D94CC6ADEFB3C31A192F73A223A05ABA /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F34FCFD7866BE9461B8B216E44A5681 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F24FB8332087169B77D9629F8A87AB3 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		15E49290DD134BDA4447AD2FD0150492 /* Pods-AudioPlayerTests */ = {
+			isa = PBXGroup;
+			children = (
+				E708C318C3FF19F07393D805F0235BE3 /* Pods-AudioPlayerTests.modulemap */,
+				A96043ADF9931177B0445C9A5DAB4CDE /* Pods-AudioPlayerTests-acknowledgements.markdown */,
+				7DDFE6BA8E3866BF8C71332032F6FD7D /* Pods-AudioPlayerTests-acknowledgements.plist */,
+				6C523DF2E6A472A0459E221F1D1CA531 /* Pods-AudioPlayerTests-dummy.m */,
+				1D79D68CF20BFFF687926961F0C2B416 /* Pods-AudioPlayerTests-Info.plist */,
+				CB95BCBBF568581CDF04FD3B5AFCF754 /* Pods-AudioPlayerTests-umbrella.h */,
+				86167F0B392919CA80A565A3E3FA2CB2 /* Pods-AudioPlayerTests.debug.xcconfig */,
+				CA409BA0204DE2131E142BE7B2EAEDD1 /* Pods-AudioPlayerTests.release.xcconfig */,
+			);
+			name = "Pods-AudioPlayerTests";
+			path = "Target Support Files/Pods-AudioPlayerTests";
+			sourceTree = "<group>";
+		};
+		2DAE4706825B937CABA2FBBBA1A265AE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				49A398B3BF76FB330863479B5EC1AF9D /* TensorFlowLiteC */,
+				E968DDF9457A28D17711A58AF1BAE245 /* TensorFlowLiteSwift */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		3A294EF0FF9FEA11F99340CE3C3B1A5A /* Pods-AudioPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				E122AEAC4C5DDDDF3F272BD0CC9CD238 /* Pods-AudioPlayer.modulemap */,
+				79F0B7F8E848798838A8C548D84FE76D /* Pods-AudioPlayer-acknowledgements.markdown */,
+				9F4B1EAD5DFFF808AD71FF5792D4EF3F /* Pods-AudioPlayer-acknowledgements.plist */,
+				726C087445B18133F03B5C50E31416B3 /* Pods-AudioPlayer-dummy.m */,
+				955EBB131D703E2BB8513F643438FE91 /* Pods-AudioPlayer-Info.plist */,
+				67093CC8847F1FB1FDB7D7589B269B70 /* Pods-AudioPlayer-umbrella.h */,
+				64EE00C9FE4CBD5289A174115502F7E6 /* Pods-AudioPlayer.debug.xcconfig */,
+				176806F8E71F105C5593F6A58225A548 /* Pods-AudioPlayer.release.xcconfig */,
+			);
+			name = "Pods-AudioPlayer";
+			path = "Target Support Files/Pods-AudioPlayer";
+			sourceTree = "<group>";
+		};
+		49A398B3BF76FB330863479B5EC1AF9D /* TensorFlowLiteC */ = {
+			isa = PBXGroup;
+			children = (
+				A54ED1A300CEDA33C0141796CC0D4EC4 /* Core */,
+				AACF2F55EAE1F1B1165A7DDD03493542 /* Support Files */,
+			);
+			name = TensorFlowLiteC;
+			path = TensorFlowLiteC;
+			sourceTree = "<group>";
+		};
+		52FD440CCB73BC793C3E6DB54AB61D80 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				3A294EF0FF9FEA11F99340CE3C3B1A5A /* Pods-AudioPlayer */,
+				8E8B5AB489E08ADC1AE385DE67F8A393 /* Pods-AudioPlayer-AudioPlayerUITests */,
+				15E49290DD134BDA4447AD2FD0150492 /* Pods-AudioPlayerTests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		578452D2E740E91742655AC8F1636D1F /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		8E8B5AB489E08ADC1AE385DE67F8A393 /* Pods-AudioPlayer-AudioPlayerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				E050CF04C80DE44E1B9CA7C205B093BA /* Pods-AudioPlayer-AudioPlayerUITests.modulemap */,
+				D768A6496A255F672C6857E31BE15C7C /* Pods-AudioPlayer-AudioPlayerUITests-acknowledgements.markdown */,
+				EDAB2DE13CA4EE7B18BCC632D55DD836 /* Pods-AudioPlayer-AudioPlayerUITests-acknowledgements.plist */,
+				08EF143173A7D8FE5852072835038475 /* Pods-AudioPlayer-AudioPlayerUITests-dummy.m */,
+				315EAF8DA83F7431A52FA17E141134AA /* Pods-AudioPlayer-AudioPlayerUITests-Info.plist */,
+				04A5F3A73DE0BD401F77BA47BF1AC7D7 /* Pods-AudioPlayer-AudioPlayerUITests-umbrella.h */,
+				6BA284B7D0D8C5E86CA6F05398CDFA02 /* Pods-AudioPlayer-AudioPlayerUITests.debug.xcconfig */,
+				9DAEA213826282EC4657F628BA61A10A /* Pods-AudioPlayer-AudioPlayerUITests.release.xcconfig */,
+			);
+			name = "Pods-AudioPlayer-AudioPlayerUITests";
+			path = "Target Support Files/Pods-AudioPlayer-AudioPlayerUITests";
+			sourceTree = "<group>";
+		};
+		A54ED1A300CEDA33C0141796CC0D4EC4 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				BEAC4D2950C765BEE2091F95209CBD0F /* Frameworks */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		AACF2F55EAE1F1B1165A7DDD03493542 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				12A29EF6F7AA6013F9877F3F8186F786 /* TensorFlowLiteC-xcframeworks.sh */,
+				00C86D957A9CB45DB54A9F09A4F4B569 /* TensorFlowLiteC.debug.xcconfig */,
+				5871589F913736F943C1E51937FC0CDB /* TensorFlowLiteC.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/TensorFlowLiteC";
+			sourceTree = "<group>";
+		};
+		B3CD65FFCD437CDE60A135330E675261 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				D5EC218CEC9DEA3817211367191D4353 /* Delegate.swift */,
+				A5CB1E2E071D297EC791AA51F6352665 /* Interpreter.swift */,
+				D037E9FF96F8652AD459AC92294D3BB0 /* InterpreterError.swift */,
+				2F0706B7F60C293C48F2EA4DE1D4E5B2 /* Model.swift */,
+				EB7DC04747802173070709CFE0DF0258 /* QuantizationParameters.swift */,
+				29FFC0652192B91FF798C11BF0712232 /* SignatureRunner.swift */,
+				8F5F291FD083C75E25BED25BC3A9F9A0 /* SignatureRunnerError.swift */,
+				84A8040D3891BB0F7BF14D17E4CB4D5A /* Tensor.swift */,
+				4637F6E7A1811AFA3B703F8B16FDF20D /* TensorFlowLite.swift */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		BEAC4D2950C765BEE2091F95209CBD0F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B2AC624F03E8FD5965E0F980BD29CD5A /* TensorFlowLiteC.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CC70FCF2162B3A13C19747EAA7DCF067 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				3A0A8BF5079E5011D093523A7527D67A /* TensorFlowLiteSwift.modulemap */,
+				B1A9129D34000B243D32AE2596D8A268 /* TensorFlowLiteSwift-dummy.m */,
+				B879F2F672A1B2588B6AF953F4200F86 /* TensorFlowLiteSwift-Info.plist */,
+				90D846536735641E2DE1E44FF48009F6 /* TensorFlowLiteSwift-prefix.pch */,
+				DC93B653FD732971513CAE4B28A4C621 /* TensorFlowLiteSwift-umbrella.h */,
+				BCA68692708E1B9073272270BF2559CE /* TensorFlowLiteSwift.debug.xcconfig */,
+				9CE34CF223D471C24154F2EAC3547942 /* TensorFlowLiteSwift.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/TensorFlowLiteSwift";
+			sourceTree = "<group>";
+		};
+		CF1408CF629C7361332E53B88F7BD30C = {
+			isa = PBXGroup;
+			children = (
+				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
+				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
+				2DAE4706825B937CABA2FBBBA1A265AE /* Pods */,
+				EB7DF12DCD8AE7EB08F079C809B7928C /* Products */,
+				52FD440CCB73BC793C3E6DB54AB61D80 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				578452D2E740E91742655AC8F1636D1F /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E968DDF9457A28D17711A58AF1BAE245 /* TensorFlowLiteSwift */ = {
+			isa = PBXGroup;
+			children = (
+				B3CD65FFCD437CDE60A135330E675261 /* Core */,
+				CC70FCF2162B3A13C19747EAA7DCF067 /* Support Files */,
+			);
+			name = TensorFlowLiteSwift;
+			path = TensorFlowLiteSwift;
+			sourceTree = "<group>";
+		};
+		EB7DF12DCD8AE7EB08F079C809B7928C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1AC92983C0238D0816D6E58663DE9F1E /* Pods-AudioPlayer */,
+				56600C003A1B2F5BB3339182FA78CA30 /* Pods-AudioPlayer-AudioPlayerUITests */,
+				CD1A2787E67121D3CA627AD51B08BFB8 /* Pods-AudioPlayerTests */,
+				E0B71FE13AA6B05010059EB4B8D87919 /* TensorFlowLiteSwift */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		0E24BE5B157954C23E25C686996EBB65 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3961125F658403B607768A63CD61346A /* Pods-AudioPlayerTests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1FD674C1C03D2262B093C58E8C291FF8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4E610CB869621DB3DD72CF8EC62ABDBA /* TensorFlowLiteSwift-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		32A66FB37E2DF2C947767D0CF4382BE9 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA87AAFFE3FC88A37060054A7009E4A9 /* Pods-AudioPlayer-AudioPlayerUITests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6D238DDD0ECC82A155C712A0058093D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AAC6EE2546723B4A67E2695ECC8E1A54 /* Pods-AudioPlayer-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		10418167F619D6DA72BADAD10F9EC02B /* TensorFlowLiteSwift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 80426BB50129B8A49CF28EE2E6B22BF0 /* Build configuration list for PBXNativeTarget "TensorFlowLiteSwift" */;
+			buildPhases = (
+				1FD674C1C03D2262B093C58E8C291FF8 /* Headers */,
+				B3E11B8D74F95B041EC5F674F3DF1287 /* Sources */,
+				47EFF6B54516ACA274CA42DDF1689529 /* Frameworks */,
+				58817AD12EDA64FFE62820A7CCAF04EC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BBAE2DD3E5B21EB8DA63E4A41C1E77E4 /* PBXTargetDependency */,
+			);
+			name = TensorFlowLiteSwift;
+			productName = TensorFlowLite;
+			productReference = E0B71FE13AA6B05010059EB4B8D87919 /* TensorFlowLiteSwift */;
+			productType = "com.apple.product-type.framework";
+		};
+		4A1BA294847516277FFFF112CE2D4059 /* Pods-AudioPlayerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8C31812A1819F0EACF3E1927877CDA0B /* Build configuration list for PBXNativeTarget "Pods-AudioPlayerTests" */;
+			buildPhases = (
+				0E24BE5B157954C23E25C686996EBB65 /* Headers */,
+				CE245F9E841E4D7F8C09A46E53C03873 /* Sources */,
+				0D89B55309008173FEA6D0F7B52FF54C /* Frameworks */,
+				A153A4E356553E5F15887B1D5892AB09 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				222D7636B0BFFDEB75A255BC9882A706 /* PBXTargetDependency */,
+			);
+			name = "Pods-AudioPlayerTests";
+			productName = Pods_AudioPlayerTests;
+			productReference = CD1A2787E67121D3CA627AD51B08BFB8 /* Pods-AudioPlayerTests */;
+			productType = "com.apple.product-type.framework";
+		};
+		51172D7F210664B5BEDAACA466F2A452 /* Pods-AudioPlayer-AudioPlayerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43D5A53669782B6A892A040BDEB5F2DC /* Build configuration list for PBXNativeTarget "Pods-AudioPlayer-AudioPlayerUITests" */;
+			buildPhases = (
+				32A66FB37E2DF2C947767D0CF4382BE9 /* Headers */,
+				27C1D3B97906D66B69F1C661DA91D81B /* Sources */,
+				6390F90297EFE755F3EA6938F3D32D51 /* Frameworks */,
+				87E5C114D73DA765904F339D3226F3CB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				69784C0441B70608ECDAC6DFF64B7EAC /* PBXTargetDependency */,
+				7A82A1C42A68AA85F7D343646AE9550D /* PBXTargetDependency */,
+			);
+			name = "Pods-AudioPlayer-AudioPlayerUITests";
+			productName = Pods_AudioPlayer_AudioPlayerUITests;
+			productReference = 56600C003A1B2F5BB3339182FA78CA30 /* Pods-AudioPlayer-AudioPlayerUITests */;
+			productType = "com.apple.product-type.framework";
+		};
+		70DC5DA42DBE559A810B3417F948E574 /* Pods-AudioPlayer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 957460AAEBBB2DFD3B0EA0B76A301975 /* Build configuration list for PBXNativeTarget "Pods-AudioPlayer" */;
+			buildPhases = (
+				A6D238DDD0ECC82A155C712A0058093D /* Headers */,
+				6F32E58DF887885355722FC7D05499E2 /* Sources */,
+				6F34FCFD7866BE9461B8B216E44A5681 /* Frameworks */,
+				BE968C82CF05C8FC6BCCBF5B4B89C7D5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				11502FC7599014196E78D189E7DD0A7C /* PBXTargetDependency */,
+				8596703E9211BADEC45068C27F649A0A /* PBXTargetDependency */,
+			);
+			name = "Pods-AudioPlayer";
+			productName = Pods_AudioPlayer;
+			productReference = 1AC92983C0238D0816D6E58663DE9F1E /* Pods-AudioPlayer */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+			};
+			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
+			productRefGroup = EB7DF12DCD8AE7EB08F079C809B7928C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				70DC5DA42DBE559A810B3417F948E574 /* Pods-AudioPlayer */,
+				51172D7F210664B5BEDAACA466F2A452 /* Pods-AudioPlayer-AudioPlayerUITests */,
+				4A1BA294847516277FFFF112CE2D4059 /* Pods-AudioPlayerTests */,
+				AC559E53E13B6FBEF4F5CC310A73AFE6 /* TensorFlowLiteC */,
+				10418167F619D6DA72BADAD10F9EC02B /* TensorFlowLiteSwift */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		58817AD12EDA64FFE62820A7CCAF04EC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87E5C114D73DA765904F339D3226F3CB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A153A4E356553E5F15887B1D5892AB09 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE968C82CF05C8FC6BCCBF5B4B89C7D5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E428E9B2EB9A04CAA5BA04B652A1082B /* [CP] Copy XCFrameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/TensorFlowLiteC/TensorFlowLiteC-xcframeworks-input-files.xcfilelist",
+			);
+			name = "[CP] Copy XCFrameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/TensorFlowLiteC/TensorFlowLiteC-xcframeworks-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/TensorFlowLiteC/TensorFlowLiteC-xcframeworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		27C1D3B97906D66B69F1C661DA91D81B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F823987EB50CE7B87ED957FF7D03614 /* Pods-AudioPlayer-AudioPlayerUITests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F32E58DF887885355722FC7D05499E2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3928FA84ED102CA275B3864C00B51DF7 /* Pods-AudioPlayer-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B3E11B8D74F95B041EC5F674F3DF1287 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7FCE32576ED51F3AA72DCE2797DD874F /* Delegate.swift in Sources */,
+				82DAD2DEAB468828FF3C328334426343 /* Interpreter.swift in Sources */,
+				4119A175020802D54F061951BF27738F /* InterpreterError.swift in Sources */,
+				3ED19E7E8E1E9301B4935088E1485772 /* Model.swift in Sources */,
+				CBC685FCB3F59A50B4065A88909A12FE /* QuantizationParameters.swift in Sources */,
+				8EE28F220A75F086B0EF372B0E431000 /* SignatureRunner.swift in Sources */,
+				E3F1983C96F4D6FC26851AC02B8B4F53 /* SignatureRunnerError.swift in Sources */,
+				F30EF92C5096E96D8DCC4940AFAF0B21 /* Tensor.swift in Sources */,
+				8FD6E56FA0A2147BB598C34D35BC45AF /* TensorFlowLite.swift in Sources */,
+				14D1110BC2756834D0B68C69875C6D53 /* TensorFlowLiteSwift-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE245F9E841E4D7F8C09A46E53C03873 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7FC0412C6D3230B1DCA69FC318FAAE09 /* Pods-AudioPlayerTests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		11502FC7599014196E78D189E7DD0A7C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TensorFlowLiteC;
+			target = AC559E53E13B6FBEF4F5CC310A73AFE6 /* TensorFlowLiteC */;
+			targetProxy = F239BE67C2CF745E4F3B17FB51D84DA5 /* PBXContainerItemProxy */;
+		};
+		222D7636B0BFFDEB75A255BC9882A706 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-AudioPlayer";
+			target = 70DC5DA42DBE559A810B3417F948E574 /* Pods-AudioPlayer */;
+			targetProxy = 572F58DFA3DA2ECA391427371CCF106F /* PBXContainerItemProxy */;
+		};
+		69784C0441B70608ECDAC6DFF64B7EAC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TensorFlowLiteC;
+			target = AC559E53E13B6FBEF4F5CC310A73AFE6 /* TensorFlowLiteC */;
+			targetProxy = 07A709C30F8608FC82FA2DF9DC64002A /* PBXContainerItemProxy */;
+		};
+		7A82A1C42A68AA85F7D343646AE9550D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TensorFlowLiteSwift;
+			target = 10418167F619D6DA72BADAD10F9EC02B /* TensorFlowLiteSwift */;
+			targetProxy = D2D49A1EF9D13400C442D74AFDCC2B16 /* PBXContainerItemProxy */;
+		};
+		8596703E9211BADEC45068C27F649A0A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TensorFlowLiteSwift;
+			target = 10418167F619D6DA72BADAD10F9EC02B /* TensorFlowLiteSwift */;
+			targetProxy = FC55B61CA30E595668FD8C1376383F15 /* PBXContainerItemProxy */;
+		};
+		BBAE2DD3E5B21EB8DA63E4A41C1E77E4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TensorFlowLiteC;
+			target = AC559E53E13B6FBEF4F5CC310A73AFE6 /* TensorFlowLiteC */;
+			targetProxy = 056B28A730CE139B787E617B1DB2DA2E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2360C6A27DE7559DF9252781B1780785 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9CE34CF223D471C24154F2EAC3547942 /* TensorFlowLiteSwift.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/TensorFlowLiteSwift/TensorFlowLiteSwift-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/TensorFlowLiteSwift/TensorFlowLiteSwift-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/TensorFlowLiteSwift/TensorFlowLiteSwift.modulemap";
+				PRODUCT_MODULE_NAME = TensorFlowLite;
+				PRODUCT_NAME = TensorFlowLite;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		38024A0ED6D6F87D7EF6FF5BB5AC6BC1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6BA284B7D0D8C5E86CA6F05398CDFA02 /* Pods-AudioPlayer-AudioPlayerUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-AudioPlayer-AudioPlayerUITests/Pods-AudioPlayer-AudioPlayerUITests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-AudioPlayer-AudioPlayerUITests/Pods-AudioPlayer-AudioPlayerUITests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		47E0EFB624A8EEB8D74D90656B5D74BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5871589F913736F943C1E51937FC0CDB /* TensorFlowLiteC.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		481622173056FC39D622190910076082 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 64EE00C9FE4CBD5289A174115502F7E6 /* Pods-AudioPlayer.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-AudioPlayer/Pods-AudioPlayer-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-AudioPlayer/Pods-AudioPlayer.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		63A2E9D3448AF73D54DD5930EA0AEF00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 86167F0B392919CA80A565A3E3FA2CB2 /* Pods-AudioPlayerTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-AudioPlayerTests/Pods-AudioPlayerTests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-AudioPlayerTests/Pods-AudioPlayerTests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		7A522E2884184F75F11C7FEBC3DE2152 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCA68692708E1B9073272270BF2559CE /* TensorFlowLiteSwift.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/TensorFlowLiteSwift/TensorFlowLiteSwift-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/TensorFlowLiteSwift/TensorFlowLiteSwift-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/TensorFlowLiteSwift/TensorFlowLiteSwift.modulemap";
+				PRODUCT_MODULE_NAME = TensorFlowLite;
+				PRODUCT_NAME = TensorFlowLite;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		7C3FBC45C4966EFE20583918767EFBE2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		96A73ED0309AB2AE98E7E2C05F1BE9D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9DAEA213826282EC4657F628BA61A10A /* Pods-AudioPlayer-AudioPlayerUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-AudioPlayer-AudioPlayerUITests/Pods-AudioPlayer-AudioPlayerUITests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-AudioPlayer-AudioPlayerUITests/Pods-AudioPlayer-AudioPlayerUITests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		96F62F94BA527BF57DFC9E1A9C05AF23 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 176806F8E71F105C5593F6A58225A548 /* Pods-AudioPlayer.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-AudioPlayer/Pods-AudioPlayer-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-AudioPlayer/Pods-AudioPlayer.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B9D9138630B111A57EC6FC8F3AA7E483 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA409BA0204DE2131E142BE7B2EAEDD1 /* Pods-AudioPlayerTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-AudioPlayerTests/Pods-AudioPlayerTests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-AudioPlayerTests/Pods-AudioPlayerTests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		C0A4699EA10C5E2B16445EF66D1F4F43 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 00C86D957A9CB45DB54A9F09A4F4B569 /* TensorFlowLiteC.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FF0A36149038A192FFD678E1D4A40D3B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		43D5A53669782B6A892A040BDEB5F2DC /* Build configuration list for PBXNativeTarget "Pods-AudioPlayer-AudioPlayerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				38024A0ED6D6F87D7EF6FF5BB5AC6BC1 /* Debug */,
+				96A73ED0309AB2AE98E7E2C05F1BE9D5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C3FBC45C4966EFE20583918767EFBE2 /* Debug */,
+				FF0A36149038A192FFD678E1D4A40D3B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		636D81D05741D892734E9C70745D0DB7 /* Build configuration list for PBXAggregateTarget "TensorFlowLiteC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0A4699EA10C5E2B16445EF66D1F4F43 /* Debug */,
+				47E0EFB624A8EEB8D74D90656B5D74BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		80426BB50129B8A49CF28EE2E6B22BF0 /* Build configuration list for PBXNativeTarget "TensorFlowLiteSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7A522E2884184F75F11C7FEBC3DE2152 /* Debug */,
+				2360C6A27DE7559DF9252781B1780785 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8C31812A1819F0EACF3E1927877CDA0B /* Build configuration list for PBXNativeTarget "Pods-AudioPlayerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				63A2E9D3448AF73D54DD5930EA0AEF00 /* Debug */,
+				B9D9138630B111A57EC6FC8F3AA7E483 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		957460AAEBBB2DFD3B0EA0B76A301975 /* Build configuration list for PBXNativeTarget "Pods-AudioPlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				481622173056FC39D622190910076082 /* Debug */,
+				96F62F94BA527BF57DFC9E1A9C05AF23 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+}
