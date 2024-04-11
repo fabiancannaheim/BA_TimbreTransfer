@@ -1,5 +1,5 @@
 import React from "react";
-import AudioUploader from "./components/AudioUploader";
+
 import AudioPlayer from "./components/AudioPlayer";
 import SingerSelector from "./components/SingerSelector";
 import StemSeparator from "./components/StemSeparator";
@@ -22,8 +22,6 @@ function App() {
     <ThemeProvider theme={theme}>
       <h1 style={{ textAlign: "center" }}>Voice Swapper!</h1>
       <SingerSelector />
-      <AudioUploader />
-
       <AudioPlayer />
     </ThemeProvider>
   );
