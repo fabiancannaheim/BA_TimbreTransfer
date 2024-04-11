@@ -13,3 +13,4 @@ npm run build
 
 # Copy the new build to the Apache server root
 cp -R build/* /var/www/app/
+
