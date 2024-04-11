@@ -63,3 +63,10 @@ Thumbs.db
 # config.ini
 # .env
 # .secrets/
+
+
+# NPM #
+##################
+
+node_modules/
+build/
