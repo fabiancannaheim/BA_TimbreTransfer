@@ -11,7 +11,6 @@ function App() {
       <h1 style={{ textAlign: "center" }}>Voice Swapper!</h1>
       <AudioUploader />
       <AudioPlayer />
-      <Controls />
     </div>
   );
 }

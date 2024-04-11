@@ -70,7 +70,7 @@ const AudioPlayer = () => {
   };
 
   return (
-    <div id="audioPlayer" style={{ margin: "0 50px" }}>
+    <div id="audioPlayer" style={{ margin: "0 auto", maxWidth: "800px" }}>
       <IconButton onClick={handlePlayPause}>
         {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
       </IconButton>
@@ -87,22 +87,44 @@ const AudioPlayer = () => {
         onChange={handleSliderChange}
         aria-labelledby="continuous-slider"
       />
-      <Grid container spacing={2}>
-        <Grid item>
-          <VolumeDownIcon />
-        </Grid>
-        <Grid item xs>
-          <Slider
-            value={volume}
-            min={0}
-            max={1}
-            step={0.01}
-            onChange={handleVolumeChange}
-          />
-        </Grid>
-        <Grid item>
-          <VolumeUpIcon />
-        </Grid>
+      <Grid
+        container
+        direction="column" // Change the direction to column
+        justifyContent="center"
+        alignItems="center" // Align items to center horizontally
+        spacing={2}
+        style={{ marginTop: 20 }}
+      >
+        {Array.from({ length: 4 }).map((_, index) => (
+          <Grid
+            item
+            xs={12} // Set to full width
+            key={index}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center", // This will center the slider horizontally
+              alignItems: "center",
+            }}
+          >
+            <IconButton aria-label="decrease volume">
+              <VolumeDownIcon />
+            </IconButton>
+            <Slider
+              orientation="horizontal"
+              value={volume}
+              min={0}
+              max={1}
+              step={0.01}
+              onChange={(e, val) => handleVolumeChange(index, val)} // You may need to adjust this to handle each slider's value separately
+              aria-labelledby={`horizontal-slider-${index}`}
+              sx={{ width: 200 }} // Set a fixed width for the slider
+            />
+            <IconButton aria-label="increase volume">
+              <VolumeUpIcon />
+            </IconButton>
+          </Grid>
+        ))}
       </Grid>
     </div>
   );
