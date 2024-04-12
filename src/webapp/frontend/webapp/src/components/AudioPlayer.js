@@ -13,23 +13,20 @@ import StopIcon from "@mui/icons-material/Stop";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeDownIcon from "@mui/icons-material/VolumeDown";
 import AudioUploader from "./AudioUploader";
+import JSZip from "jszip";
 
 const AudioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [duration, setDuration] = useState(0);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [volume, setVolume] = useState(1);
-  const [currentChunkIndex, setCurrentChunkIndex] = useState(0);
+  const [loopFlag, setLoopFlag] = useState(false);
+  const [volumes, setVolumes] = useState([1, 1, 1, 1]); // Initialize volumes for 4 stems
+  const numberOfStems = 4; // You can change this based on how many stems you have
+  const gainNodes = useRef([]); // Ref to store gain nodes
+  const sourceNodes = useRef([]); // Ref to store source nodes
+  const [currentChunkIndex, setCurrentChunkIndex] = useState(1);
   const [chunks, setChunks] = useState([]);
-  const audioRef = useRef(new Audio());
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));
-  let audioProcessingQueue = [];
-  let currentlyProcessing = false;
 
-  // New state to store processed audio buffers
-  const [processedBuffers, setProcessedBuffers] = useState([]);
-  const [playbackTime, setPlaybackTime] = useState(0); // For tracking resume position
   const sourceNodeRef = useRef(null); // For keeping track of the current source node
 
   const audioCtxRef = useRef(null);
@@ -39,47 +36,57 @@ const AudioPlayer = () => {
       window.webkitAudioContext)();
   }
 
-  useEffect(() => {
-    const audio = audioRef.current;
-
-    // Set the initial audio volume
-    audio.volume = volume;
-
-    // Function to update the current time
-    const setAudioData = () => {
-      setDuration(audio.duration);
-      setCurrentTime(audio.currentTime);
-    };
-
-    // Function to clean up the audio element when the component unmounts
-    const cleanAudioData = () => {
-      audio.pause();
-      audio.removeEventListener("loadeddata", setAudioData);
-      audio.removeEventListener("timeupdate", setAudioData);
-    };
-
-    audio.addEventListener("loadeddata", setAudioData);
-    audio.addEventListener("timeupdate", setAudioData);
-
-    return () => {
-      if (sourceNodeRef.current) {
-        sourceNodeRef.current.stop();
-      }
-      cleanAudioData();
-    };
-  }, [volume]);
-
-  //*******************************UPLOADING FILE*********************
+  //*******************************UPLOADING AND PROCESSING FILE*********************
   const handleFileUpload = async (file) => {
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      const fileResult = e.target.result;
-      const buffer = await audioCtxRef.current.decodeAudioData(fileResult);
-      const newChunks = splitBufferIntoChunks(buffer, 2);
-      setChunks(newChunks);
-      console.log("Chunks processed and stored in state.", newChunks.length);
-    };
-    reader.readAsArrayBuffer(file);
+    // Send the file directly as it's already a WAV file
+    const formData = new FormData();
+    formData.append("audio", file); // 'audio' is the field name the server expects
+    console.log(file);
+    return false;
+
+    try {
+      const response = await fetch(
+        "http://160.85.252.197/api/spleeter/2stems",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      console.log(response);
+
+      // Assuming the response is a blob of a ZIP file
+      const blob = await response.blob();
+      const zip = new JSZip();
+      const zipContents = await zip.loadAsync(blob);
+      const files = Object.keys(zipContents.files).filter((fileName) =>
+        fileName.endsWith(".mp3")
+      );
+      console.log(files);
+      // Process each WAV file found in the zip
+      for (const fileName of files) {
+        const fileData = await zipContents.files[fileName].async("blob");
+        processDownloadedBlob(fileData, fileName); // Process each file
+      }
+    } catch (error) {
+      console.error("Error sending file:", error);
+    }
+  };
+
+  // Function to process each downloaded blob
+  const processDownloadedBlob = async (blob, fileName) => {
+    const arrayBuffer = await blob.arrayBuffer();
+    const audioBuffer = await audioCtxRef.current.decodeAudioData(arrayBuffer);
+    const newChunks = splitBufferIntoChunks(audioBuffer, 2);
+    setChunks(newChunks);
+    console.log(
+      `Processed chunks from ${fileName} stored in state.`,
+      newChunks.length
+    );
   };
 
   //*******************************SPLITTING INTO CHUNKS*********************
@@ -115,103 +122,151 @@ const AudioPlayer = () => {
 
   //*******************************PLAY/PAUSE*********************
   const handlePlayPause = () => {
-    setIsPlaying(!isPlaying); // Simply toggle the state
+    console.log("handeplay isplaying:", isPlaying);
+    if (!isPlaying && currentChunkIndex > 0) {
+      setCurrentChunkIndex(currentChunkIndex - 1);
+    }
+    setIsPlaying(!isPlaying);
   };
 
-  // Add useEffect to react to changes in isPlaying
   useEffect(() => {
+    console.log(
+      "Entered useEffect for isPlaying",
+      isPlaying,
+      currentChunkIndex
+    );
     if (isPlaying) {
-      console.log(`Resuming playback at chunk index: ${currentChunkIndex}`);
       playChunkAtIndex(currentChunkIndex);
+      setCurrentChunkIndex(currentChunkIndex + 1); // Advance the index for the next play call
     } else {
-      console.log(`Playback paused.`);
-      if (sourceNodeRef.current) {
-        sourceNodeRef.current.disconnect();
-        sourceNodeRef.current.stop();
-        sourceNodeRef.current = null;
-      }
+      // Not playing, so disconnect and stop all sources
+      sourceNodes.current.forEach((source, index) => {
+        if (source) {
+          source.disconnect();
+          source.stop(); // Stop each source
+          sourceNodes.current[index] = null; // Clear the source reference
+        }
+      });
+      sourceNodes.current = []; // Optionally clear the entire array after looping
     }
-  }, [isPlaying]); // Dependency array includes isPlaying to act only when it changes
+  }, [isPlaying, loopFlag]); // Reacts to changes in isPlaying and loopFlag
 
   //*******************************STOP*********************
   const handleStop = () => {
-    if (sourceNodeRef.current) {
-      sourceNodeRef.current.stop();
-      sourceNodeRef.current.disconnect();
-      sourceNodeRef.current = null;
-    }
-    setIsPlaying(false);
-    setCurrentChunkIndex(0);
-    currentlyProcessing = false;
+    // Stop and disconnect all sources
+    sourceNodes.current.forEach((source, index) => {
+      if (source) {
+        source.stop(); // Stop the source
+        source.disconnect(); // Disconnect it from the audio context
+        sourceNodes.current[index] = null; // Clear the source from the array
+      }
+    });
+    sourceNodes.current = []; // Clear the entire array to reset
+
+    setCurrentChunkIndex(0); // Reset the chunk index to the start
+    setIsPlaying(false); // Update the playing state to false
     console.log("Stopped Audio!");
   };
 
   //*******************************PLAY AT INDEX*********************
   const playChunkAtIndex = (index) => {
-    if (index < chunks.length) {
-      if (audioCtxRef.current.state === "suspended") {
-        audioCtxRef.current.resume().then(() => {
-          console.log(
-            `Audio context resumed, now playing chunk at index: ${index}`
-          );
-          playBufferAtIndex(index);
+    console.log("entered index", isPlaying);
+    if (index < chunks.length && isPlaying) {
+      // Disconnect and stop any previously playing sources
+      if (sourceNodes.current.length) {
+        sourceNodes.current.forEach((source) => {
+          if (source) {
+            source.disconnect();
+            source.stop();
+          }
         });
-      } else {
-        playBufferAtIndex(index);
       }
-    } else {
-      console.log("No more chunks to play.");
-      setIsPlaying(false);
+
+      // Clear previous sources
+      sourceNodes.current = [];
+
+      /*
+      if (index + 1 < chunks.length) {
+        processChunk(chunks[index + 1], index + 1).then((processedChunk) => {
+          // Update the chunks array with the processed chunk
+          const newChunks = [...chunks];
+          newChunks[index + 1] = processedChunk;
+          setChunks(newChunks);
+        });
+      } */
+
+      // Assuming each chunk contains separate channel data for each stem,
+      // and each stem is a separate channel in the buffer
+      for (let stemIndex = 0; stemIndex < numberOfStems; stemIndex++) {
+        const buffer = chunks[index];
+        const source = audioCtxRef.current.createBufferSource();
+        source.buffer = buffer;
+
+        // Connect each source to its corresponding gain node
+        source.connect(gainNodes.current[stemIndex]);
+        gainNodes.current[stemIndex].connect(audioCtxRef.current.destination);
+
+        source.start();
+
+        // Keep track of all sources
+        sourceNodes.current.push(source);
+      }
+
+      // Set up the end event listener only on the last stem's source to manage playback
+      const vocalSource = sourceNodes.current[0];
+      vocalSource.onended = () => {
+        if (index + 1 < chunks.length) {
+          console.log("Entered callback", isPlaying, currentChunkIndex);
+          setLoopFlag(!loopFlag);
+        } else {
+          setIsPlaying(false); // Stop playback if no more chunks are left
+        }
+      };
     }
   };
 
-  const playBufferAtIndex = (index) => {
-    if (sourceNodeRef.current) {
-      sourceNodeRef.current.disconnect();
-      sourceNodeRef.current.stop();
-      sourceNodeRef.current = null;
-    }
+  // Remember to update your initialization of sourceNodes and gainNodes if not already defined:
+  useEffect(() => {
+    sourceNodes.current = [];
+    gainNodes.current = Array.from({ length: numberOfStems }, () =>
+      audioCtxRef.current.createGain()
+    );
+  }, []);
 
-    const buffer = chunks[index];
-    const source = audioCtxRef.current.createBufferSource();
-    source.buffer = buffer;
-    source.connect(audioCtxRef.current.destination);
-    source.start();
-
-    console.log(`Playing chunk at index: ${index}`);
-    setCurrentChunkIndex(index);
-
-    source.onended = () => {
-      console.log(`Chunk ${index} playback finished.`);
-      if (index + 1 < chunks.length && isPlaying) {
-        playChunkAtIndex(index + 1); // Play next chunk
-      } else {
-        setIsPlaying(false);
-        currentlyProcessing = false;
-        console.log("Playback finished or stopped.");
-      }
-    };
-
-    sourceNodeRef.current = source; // Store the current source node
-  };
-
+  //*******************************PROCESSING*********************
   async function processChunk(buffer) {
     // Simulate processing delay
     await new Promise((resolve) => setTimeout(resolve, 1500));
+    console.log("Chunk processed");
     // Return the processed buffer or a new buffer
     return buffer;
   }
 
+  //*******************************SLIDER*********************
   const handleSliderChange = (event, newValue) => {
-    const audio = audioRef.current;
-    audio.currentTime = newValue;
-    setCurrentTime(newValue);
+    handleStop(); // This stops the current playback and resets if necessary
+    setCurrentChunkIndex(newValue); // Updates the chunk index without starting playback
   };
 
-  const handleVolumeChange = (event, newValue) => {
-    const audio = audioRef.current;
-    audio.volume = newValue;
-    setVolume(newValue);
+  const handleSliderCommit = (event, newValue) => {
+    console.log("Commit Slider");
+    setIsPlaying(true);
+    playChunkAtIndex(currentChunkIndex); // Resume playback from the new chunk if it was playing before
+  };
+
+  //*******************************VOLUMES*********************
+  useEffect(() => {
+    // Initialize gain nodes once for each stem
+    gainNodes.current = Array.from({ length: numberOfStems }, () =>
+      audioCtxRef.current.createGain()
+    );
+  }, []);
+
+  const handleVolumeChange = (index, newValue) => {
+    const newVolumes = [...volumes];
+    newVolumes[index] = newValue;
+    setVolumes(newVolumes);
+    gainNodes.current[index].gain.value = newValue; // Update the gain node value
   };
 
   return (
@@ -245,14 +300,15 @@ const AudioPlayer = () => {
         </div>
         <Slider
           min={0}
-          max={duration}
-          value={currentTime}
+          max={chunks.length - 1}
+          value={currentChunkIndex - 1}
           onChange={handleSliderChange}
-          aria-labelledby="continuous-slider"
+          onChangeCommitted={handleSliderCommit}
+          aria-labelledby="chunk-slider"
           sx={{ width: "100%", maxWidth: "800px" }}
         />
         <Typography variant="caption" component="div" color="textSecondary">
-          {new Date(currentTime * 1000).toISOString().substr(14, 5)}
+          {`Chunk ${currentChunkIndex} of ${chunks.length}`}
         </Typography>
       </div>
       <Grid
@@ -263,7 +319,7 @@ const AudioPlayer = () => {
         spacing={2}
         style={{ marginTop: 20 }}
       >
-        {Array.from({ length: 4 }).map((_, index) => (
+        {Array.from({ length: numberOfStems }).map((_, index) => (
           <Grid
             item
             xs={12}
@@ -281,16 +337,20 @@ const AudioPlayer = () => {
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "center",
-                width: isXs ? "90%" : "100%",
+                width: "90%",
                 maxWidth: "800px",
               }}
             >
-              <IconButton aria-label="decrease volume">
+              <IconButton
+                onClick={() =>
+                  handleVolumeChange(index, Math.max(0, volumes[index] - 0.1))
+                }
+              >
                 <VolumeDownIcon />
               </IconButton>
               <Slider
                 orientation="horizontal"
-                value={volume}
+                value={volumes[index]}
                 min={0}
                 max={1}
                 step={0.01}
@@ -298,7 +358,11 @@ const AudioPlayer = () => {
                 aria-labelledby={`horizontal-slider-${index}`}
                 sx={{ flexGrow: 1 }}
               />
-              <IconButton aria-label="increase volume">
+              <IconButton
+                onClick={() =>
+                  handleVolumeChange(index, Math.min(1, volumes[index] + 0.1))
+                }
+              >
                 <VolumeUpIcon />
               </IconButton>
             </div>
