@@ -13,17 +13,21 @@ import StopIcon from "@mui/icons-material/Stop";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeDownIcon from "@mui/icons-material/VolumeDown";
 import AudioUploader from "./AudioUploader";
+import CircularProgress from "@mui/material/CircularProgress";
+import axios from "axios";
 import JSZip from "jszip";
 
 const AudioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [loopFlag, setLoopFlag] = useState(false);
   const [volumes, setVolumes] = useState([1, 1, 1, 1]); // Initialize volumes for 4 stems
-  const numberOfStems = 4; // You can change this based on how many stems you have
+  const numberOfStems = 2; // You can change this based on how many stems you have
   const gainNodes = useRef([]); // Ref to store gain nodes
   const sourceNodes = useRef([]); // Ref to store source nodes
   const [currentChunkIndex, setCurrentChunkIndex] = useState(1);
   const [chunks, setChunks] = useState([]);
+  const [stems, setStems] = useState([]); // State to hold the audio buffers for each stem
+  const [isLoading, setIsLoading] = useState(false);
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -38,59 +42,64 @@ const AudioPlayer = () => {
 
   //*******************************UPLOADING AND PROCESSING FILE*********************
   const handleFileUpload = async (file) => {
-    // Send the file directly as it's already a WAV file
+    setIsLoading(true); // Start loading
     const formData = new FormData();
-    formData.append("audio", file); // 'audio' is the field name the server expects
-    console.log(file);
-    return false;
+    formData.append("audio", file);
 
     try {
-      const response = await fetch(
+      const response = await axios.post(
         "http://160.85.252.197/api/spleeter/2stems",
+        formData,
         {
-          method: "POST",
-          body: formData,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          responseType: "blob", // Ensure you receive a blob response
         }
       );
 
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      console.log(response);
-
       // Assuming the response is a blob of a ZIP file
-      const blob = await response.blob();
+      const blob = response.data;
       const zip = new JSZip();
       const zipContents = await zip.loadAsync(blob);
-      const files = Object.keys(zipContents.files).filter((fileName) =>
-        fileName.endsWith(".mp3")
+      const files = Object.keys(zipContents.files).filter(
+        (fileName) => fileName.endsWith(".wav") // Assuming you want .wav files, adjust if necessary
       );
-      console.log(files);
-      // Process each WAV file found in the zip
+
+      // Prepare to load and decode each stem
+      const stems = [];
       for (const fileName of files) {
         const fileData = await zipContents.files[fileName].async("blob");
-        processDownloadedBlob(fileData, fileName); // Process each file
+        const arrayBuffer = await fileData.arrayBuffer();
+        const audioBuffer = await audioCtxRef.current.decodeAudioData(
+          arrayBuffer
+        );
+        stems.push(audioBuffer); // Save each stem's buffer
       }
+
+      console.log("Stems processed and stored in state.", stems);
+      setStems(stems); // Assuming you have a setStems function to update your state
     } catch (error) {
       console.error("Error sending file:", error);
     }
   };
 
-  // Function to process each downloaded blob
-  const processDownloadedBlob = async (blob, fileName) => {
-    const arrayBuffer = await blob.arrayBuffer();
-    const audioBuffer = await audioCtxRef.current.decodeAudioData(arrayBuffer);
-    const newChunks = splitBufferIntoChunks(audioBuffer, 2);
-    setChunks(newChunks);
-    console.log(
-      `Processed chunks from ${fileName} stored in state.`,
-      newChunks.length
-    );
-  };
-
   //*******************************SPLITTING INTO CHUNKS*********************
-  function splitBufferIntoChunks(buffer, chunkDurationSec) {
+
+  useEffect(() => {
+    if (stems.length > 0) {
+      // Temporary array to hold chunks for each stem
+      const allChunks = stems.map((stem) => splitBufferIntoChunks(stem, 2));
+      setChunks(allChunks);
+      setIsLoading(false); // Stop loading
+    }
+  }, [stems]); // Dependency on stems ensures this runs only when stems are updated
+
+  const splitBufferIntoChunks = (buffer, chunkDurationSec) => {
     const sampleRate = buffer.sampleRate;
     const chunkLength = sampleRate * chunkDurationSec;
     const numberOfChunks = Math.ceil(buffer.duration / chunkDurationSec);
@@ -100,29 +109,25 @@ const AudioPlayer = () => {
       const startOffset = i * chunkLength;
       const endOffset = Math.min((i + 1) * chunkLength, buffer.length);
 
-      // Create a new buffer for each chunk
       const chunkBuffer = audioCtxRef.current.createBuffer(
         buffer.numberOfChannels,
         endOffset - startOffset,
         sampleRate
       );
 
-      // Copy the relevant data from the original buffer to the chunk buffer
       for (let channel = 0; channel < buffer.numberOfChannels; channel++) {
         const originalData = buffer.getChannelData(channel);
         const chunkData = chunkBuffer.getChannelData(channel);
-        // Copy segment of data from original buffer to the new chunk buffer
         chunkData.set(originalData.subarray(startOffset, endOffset));
       }
       chunks.push(chunkBuffer);
     }
-    console.log("Array of Chunks: ", chunks);
     return chunks;
-  }
+  };
 
   //*******************************PLAY/PAUSE*********************
   const handlePlayPause = () => {
-    console.log("handeplay isplaying:", isPlaying);
+    console.log(chunks);
     if (!isPlaying && currentChunkIndex > 0) {
       setCurrentChunkIndex(currentChunkIndex - 1);
     }
@@ -130,11 +135,6 @@ const AudioPlayer = () => {
   };
 
   useEffect(() => {
-    console.log(
-      "Entered useEffect for isPlaying",
-      isPlaying,
-      currentChunkIndex
-    );
     if (isPlaying) {
       playChunkAtIndex(currentChunkIndex);
       setCurrentChunkIndex(currentChunkIndex + 1); // Advance the index for the next play call
@@ -171,7 +171,7 @@ const AudioPlayer = () => {
   //*******************************PLAY AT INDEX*********************
   const playChunkAtIndex = (index) => {
     console.log("entered index", isPlaying);
-    if (index < chunks.length && isPlaying) {
+    if (index < chunks[0].length && isPlaying) {
       // Disconnect and stop any previously playing sources
       if (sourceNodes.current.length) {
         sourceNodes.current.forEach((source) => {
@@ -186,7 +186,7 @@ const AudioPlayer = () => {
       sourceNodes.current = [];
 
       /*
-      if (index + 1 < chunks.length) {
+      if (index + 1 < chunks[0].length) {
         processChunk(chunks[index + 1], index + 1).then((processedChunk) => {
           // Update the chunks array with the processed chunk
           const newChunks = [...chunks];
@@ -197,8 +197,10 @@ const AudioPlayer = () => {
 
       // Assuming each chunk contains separate channel data for each stem,
       // and each stem is a separate channel in the buffer
+      // Iterate over each stem to play its corresponding chunk at the given index
       for (let stemIndex = 0; stemIndex < numberOfStems; stemIndex++) {
-        const buffer = chunks[index];
+        // Access the specific chunk for this stem at the current index
+        const buffer = chunks[stemIndex][index];
         const source = audioCtxRef.current.createBufferSource();
         source.buffer = buffer;
 
@@ -208,14 +210,14 @@ const AudioPlayer = () => {
 
         source.start();
 
-        // Keep track of all sources
+        // Store the source in sourceNodes for later control
         sourceNodes.current.push(source);
       }
 
       // Set up the end event listener only on the last stem's source to manage playback
       const vocalSource = sourceNodes.current[0];
       vocalSource.onended = () => {
-        if (index + 1 < chunks.length) {
+        if (index + 1 < chunks[0].length) {
           console.log("Entered callback", isPlaying, currentChunkIndex);
           setLoopFlag(!loopFlag);
         } else {
@@ -271,11 +273,35 @@ const AudioPlayer = () => {
 
   return (
     <div id="audioPlayer">
+      {isLoading && (
+        <div
+          style={{
+            position: "fixed", // Make it overlay and fixed
+            top: 0, // Start from the top of the viewport
+            left: 0, // Start from the left of the viewport
+            width: "100%", // Cover the full width of the viewport
+            height: "100%", // Cover the full height of the viewport
+            backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent black background
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 9999, // Ensure it's on top of other content
+          }}
+        >
+          <div style={{ textAlign: "center" }}>
+            {" "}
+            {/* Center the text and spinner vertically and horizontally */}
+            <CircularProgress />
+            <Typography variant="h6" style={{ marginTop: 20, color: "black" }}>
+              Loading your stems...
+            </Typography>
+          </div>
+        </div>
+      )}
       <AudioUploader
         onFileUpload={handleFileUpload}
         style={{ margin: "0 auto", maxWidth: "100%", padding: "0 16px" }}
       />
-
       <div
         style={{
           display: "flex",
@@ -283,34 +309,43 @@ const AudioPlayer = () => {
           alignItems: "center",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            width: "100%",
-            marginBottom: 16,
-          }}
-        >
-          <IconButton onClick={handlePlayPause}>
-            {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-          </IconButton>
-          <IconButton onClick={handleStop}>
-            <StopIcon />
-          </IconButton>
-        </div>
-        <Slider
-          min={0}
-          max={chunks.length - 1}
-          value={currentChunkIndex - 1}
-          onChange={handleSliderChange}
-          onChangeCommitted={handleSliderCommit}
-          aria-labelledby="chunk-slider"
-          sx={{ width: "100%", maxWidth: "800px" }}
-        />
-        <Typography variant="caption" component="div" color="textSecondary">
-          {`Chunk ${currentChunkIndex} of ${chunks.length}`}
-        </Typography>
+        {!isLoading && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+              marginBottom: 16,
+            }}
+          >
+            <IconButton onClick={handlePlayPause}>
+              {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+            </IconButton>
+            <IconButton onClick={handleStop}>
+              <StopIcon />
+            </IconButton>
+          </div>
+        )}
+        {!isLoading && (
+          <Slider
+            min={0}
+            max={chunks.length > 0 && chunks[0] ? chunks[0].length - 1 : 0}
+            value={currentChunkIndex - 1}
+            onChange={handleSliderChange}
+            onChangeCommitted={handleSliderCommit}
+            aria-labelledby="chunk-slider"
+            sx={{ width: "100%", maxWidth: "800px" }}
+          />
+        )}
+        {!isLoading && (
+          <Typography variant="caption" component="div" color="textSecondary">
+            {`Chunk ${currentChunkIndex} of ${
+              chunks.length > 0 && chunks[0] ? chunks[0].length - 1 : 0
+            }`}
+          </Typography>
+        )}
       </div>
+      )
       <Grid
         container
         direction="column"
