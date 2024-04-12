@@ -2,9 +2,9 @@ import React from "react";
 import { Button } from "@mui/material";
 
 export default function AudioUploader({ onFileUpload }) {
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
-    if (file) {
+    if (file && onFileUpload) {
       onFileUpload(file);
     }
   };
