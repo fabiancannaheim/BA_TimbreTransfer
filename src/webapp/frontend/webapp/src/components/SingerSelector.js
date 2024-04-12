@@ -15,10 +15,8 @@ export default function SingerSelector({ onSingerChange }) {
   return (
     <FormControl
       style={{
-        position: "absolute",
-        top: 16,
-        right: 16,
-        minWidth: 50,
+        minWidth: 100, // Ensuring a minimum width of 50px
+        color: "black", // Sets text color to white
       }}
     >
       <InputLabel id="singer-select-label">Singer</InputLabel>
@@ -28,6 +26,9 @@ export default function SingerSelector({ onSingerChange }) {
         value={selectedSinger}
         label="Singer"
         onChange={handleSingerChange}
+        style={{
+          color: "white", // Sets text color to white
+        }}
       >
         <MenuItem value="Singer 1">MJ</MenuItem>
         <MenuItem value="Singer 2">Beyonce</MenuItem>

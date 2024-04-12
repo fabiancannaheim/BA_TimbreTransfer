@@ -272,20 +272,37 @@ const AudioPlayer = () => {
   };
 
   return (
-    <div id="audioPlayer">
+    <div
+      id="audioPlayer"
+      style={{
+        padding: "10px 7px",
+        paddingBottom: "30px",
+        border: "3px solid rgba(0, 0, 0, 0.5)", // Semi-transparent black border
+        borderRadius: "15px", // Rounded corners
+        maxWidth: "800px",
+        margin: "0 auto",
+        boxShadow: "0px 8px 16px 0px rgba(0,0,0,0.1)", // Soft shadow for depth
+      }}
+    >
       {isLoading && (
         <div
           style={{
-            position: "fixed", // Make it overlay and fixed
-            top: 0, // Start from the top of the viewport
-            left: 0, // Start from the left of the viewport
-            width: "100%", // Cover the full width of the viewport
-            height: "100%", // Cover the full height of the viewport
-            backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent black background
+            position: "fixed", // Overlay and fixed to the viewport
+            top: "50%", // Position to 50% of the viewport height
+            left: "50%", // Position to 50% of the viewport width
+            transform: "translate(-50%, -50%)", // Offset the element to the center of the viewport
+            width: "220px", // Specific width for the element
+            height: "150px", // Specific height for the element
+            backgroundColor: "rgba(121, 22, 22, 0.9)", // Dark red background with 0.5 opacity
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            zIndex: 9999, // Ensure it's on top of other content
+            borderRadius: "10px", // Rounded borders
+            zIndex: 9999,
+            fontSize: "15px",
+            fontWeight: "550",
+            textTransform: "none",
+            fontFamily: "Roboto, Helvetica, Arial, sans-serif",
           }}
         >
           <div style={{ textAlign: "center" }}>
@@ -309,43 +326,50 @@ const AudioPlayer = () => {
           alignItems: "center",
         }}
       >
-        {!isLoading && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              width: "100%",
-              marginBottom: 16,
-            }}
-          >
-            <IconButton onClick={handlePlayPause}>
-              {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-            </IconButton>
-            <IconButton onClick={handleStop}>
-              <StopIcon />
-            </IconButton>
-          </div>
-        )}
-        {!isLoading && (
-          <Slider
-            min={0}
-            max={chunks.length > 0 && chunks[0] ? chunks[0].length - 1 : 0}
-            value={currentChunkIndex - 1}
-            onChange={handleSliderChange}
-            onChangeCommitted={handleSliderCommit}
-            aria-labelledby="chunk-slider"
-            sx={{ width: "100%", maxWidth: "800px" }}
-          />
-        )}
-        {!isLoading && (
-          <Typography variant="caption" component="div" color="textSecondary">
-            {`Chunk ${currentChunkIndex} of ${
-              chunks.length > 0 && chunks[0] ? chunks[0].length - 1 : 0
-            }`}
-          </Typography>
-        )}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            width: "100%",
+            marginBottom: 16,
+          }}
+        >
+          <IconButton onClick={handlePlayPause}>
+            {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+          </IconButton>
+          <IconButton onClick={handleStop}>
+            <StopIcon />
+          </IconButton>
+        </div>
+
+        <Slider
+          min={0}
+          max={chunks.length > 0 && chunks[0] ? chunks[0].length - 1 : 0}
+          value={currentChunkIndex - 1}
+          onChange={handleSliderChange}
+          onChangeCommitted={handleSliderCommit}
+          aria-labelledby="chunk-slider"
+          sx={{ width: "90%", maxWidth: "800px" }}
+          color="antrazit"
+        />
+
+        <Typography
+          variant="caption"
+          component="div"
+          color="textSecondary"
+          style={{
+            fontSize: "15px",
+            fontWeight: "550",
+            borderRadius: "10px",
+            textTransform: "none",
+            fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+          }}
+        >
+          {`Chunk ${currentChunkIndex} of ${
+            chunks.length > 0 && chunks[0] ? chunks[0].length - 1 : 0
+          }`}
+        </Typography>
       </div>
-      )
       <Grid
         container
         direction="column"
@@ -366,7 +390,19 @@ const AudioPlayer = () => {
               width: "100%",
             }}
           >
-            <Typography variant="subtitle1">Stem {index + 1}</Typography>
+            <Typography
+              variant="subtitle1"
+              color="textSecondary"
+              style={{
+                fontSize: "15px",
+                fontWeight: "550",
+                borderRadius: "10px",
+                textTransform: "none",
+                fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+              }}
+            >
+              Stem {index + 1}
+            </Typography>
             <div
               style={{
                 display: "flex",
