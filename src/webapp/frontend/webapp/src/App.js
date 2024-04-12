@@ -7,6 +7,7 @@ import TimbreTransfer from "./components/TimbreTransfer";
 import Controls from "./components/Controls";
 import { orange } from "@mui/material/colors";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import "./App.css";
 // Create a theme instance with orange as the primary color
 const theme = createTheme({
   palette: {
@@ -20,8 +21,12 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <h1 style={{ textAlign: "center" }}>Voice Swapper!</h1>
-      <SingerSelector />
+      <div className="title-banner">
+        <h1>Voice Swapper!</h1>
+        <div className="singer-selector">
+          <SingerSelector />
+        </div>
+      </div>
       <AudioPlayer />
     </ThemeProvider>
   );
