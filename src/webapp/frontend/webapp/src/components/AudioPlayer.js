@@ -246,14 +246,18 @@ const AudioPlayer = () => {
 
   //*******************************SLIDER*********************
   const handleSliderChange = (event, newValue) => {
-    handleStop(); // This stops the current playback and resets if necessary
-    setCurrentChunkIndex(newValue); // Updates the chunk index without starting playback
+    if (stems.length > 0 && !isLoading) {
+      handleStop(); // This stops the current playback and resets if necessary
+      setCurrentChunkIndex(newValue); // Updates the chunk index without starting playback
+    }
   };
 
   const handleSliderCommit = (event, newValue) => {
-    console.log("Commit Slider");
-    setIsPlaying(true);
-    playChunkAtIndex(currentChunkIndex); // Resume playback from the new chunk if it was playing before
+    if (stems.length > 0 && !isLoading) {
+      console.log("Commit Slider");
+      setIsPlaying(true);
+      playChunkAtIndex(currentChunkIndex); // Resume playback from the new chunk if it was playing before
+    }
   };
 
   //*******************************VOLUMES*********************
