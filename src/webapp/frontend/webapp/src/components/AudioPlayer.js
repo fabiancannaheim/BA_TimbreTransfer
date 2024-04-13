@@ -1,12 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  IconButton,
-  Slider,
-  Typography,
-  Grid,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
+import { IconButton, Slider, Typography, Grid } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import StopIcon from "@mui/icons-material/Stop";
@@ -17,7 +10,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 import JSZip from "jszip";
 
-const AudioPlayer = () => {
+const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [loopFlag, setLoopFlag] = useState(false);
   const [volumes, setVolumes] = useState([1, 1, 1, 1]); // Initialize volumes for 4 stems
@@ -28,10 +21,7 @@ const AudioPlayer = () => {
   const [chunks, setChunks] = useState([]);
   const [stems, setStems] = useState([]); // State to hold the audio buffers for each stem
   const [isLoading, setIsLoading] = useState(false);
-  const theme = useTheme();
-  const isXs = useMediaQuery(theme.breakpoints.down("sm"));
-
-  const sourceNodeRef = useRef(null); // For keeping track of the current source node
+  const stemNames = ["Vocals", "Drums", "Bass", "Accompaniment"];
 
   const audioCtxRef = useRef(null);
 
@@ -83,13 +73,22 @@ const AudioPlayer = () => {
 
       console.log("Stems processed and stored in state.", stems);
       setStems(stems); // Assuming you have a setStems function to update your state
+      setIsLoading(false); // Stop loading
+      onSongUploaded(true); // Notify App that a song has been uploaded
     } catch (error) {
       console.error("Error sending file:", error);
+      setIsLoading(false); // Ensure loading is stopped on error
+      onSongUploaded(false); // Notify App that upload failed
     }
   };
 
-  //*******************************SPLITTING INTO CHUNKS*********************
+  //*******************************SINGER SELECT TRIGGER*********************
+  useEffect(() => {
+    console.log("New singer selected:", selectedSinger);
+    // You can place any logic here that needs to run when the singer changes
+  }, [selectedSinger]); // Add selectedSinger as a dependency to useEffect
 
+  //*******************************SPLITTING INTO CHUNKS*********************
   useEffect(() => {
     if (stems.length > 0) {
       // Temporary array to hold chunks for each stem
@@ -383,7 +382,7 @@ const AudioPlayer = () => {
         spacing={2}
         style={{ marginTop: 20 }}
       >
-        {Array.from({ length: numberOfStems }).map((_, index) => (
+        {stemNames.map((name, index) => (
           <Grid
             item
             xs={12}
@@ -406,7 +405,8 @@ const AudioPlayer = () => {
                 fontFamily: "Roboto, Helvetica, Arial, sans-serif",
               }}
             >
-              Stem {index + 1}
+              {name}{" "}
+              {/* Use the name from the array instead of generating it */}
             </Typography>
             <div
               style={{

@@ -1,5 +1,4 @@
-import React from "react";
-
+import React, { useState } from "react";
 import AudioPlayer from "./components/AudioPlayer";
 import SingerSelector from "./components/SingerSelector";
 import StemSeparator from "./components/StemSeparator";
@@ -8,6 +7,7 @@ import Controls from "./components/Controls";
 import { orange } from "@mui/material/colors";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "./App.css";
+
 // Create a theme instance with orange as the primary color
 const theme = createTheme({
   palette: {
@@ -18,16 +18,34 @@ const theme = createTheme({
   },
   // If you want to override specific component styles globally, you can do so here
 });
+
 function App() {
+  const [isSongUploaded, setIsSongUploaded] = useState(false);
+  const [selectedSinger, setSelectedSinger] = useState("");
+
+  const handleSongUploaded = (uploaded) => {
+    setIsSongUploaded(uploaded);
+  };
+
+  const handleSingerChange = (singer) => {
+    setSelectedSinger(singer);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <div className="title-banner">
         <h1>Voice Swapper!</h1>
         <div className="singer-selector">
-          <SingerSelector />
+          <SingerSelector
+            onSingerChange={handleSingerChange}
+            isSongUploaded={isSongUploaded}
+          />
         </div>
       </div>
-      <AudioPlayer />
+      <AudioPlayer
+        onSongUploaded={handleSongUploaded}
+        selectedSinger={selectedSinger}
+      />
     </ThemeProvider>
   );
 }
