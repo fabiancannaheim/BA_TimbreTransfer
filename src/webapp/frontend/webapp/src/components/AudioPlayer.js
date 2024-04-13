@@ -1,12 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  IconButton,
-  Slider,
-  Typography,
-  Grid,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
+import { IconButton, Slider, Typography, Grid } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import StopIcon from "@mui/icons-material/Stop";
@@ -17,7 +10,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 import JSZip from "jszip";
 
-const AudioPlayer = () => {
+const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [loopFlag, setLoopFlag] = useState(false);
   const [volumes, setVolumes] = useState([1, 1, 1, 1]); // Initialize volumes for 4 stems
@@ -28,10 +21,11 @@ const AudioPlayer = () => {
   const [chunks, setChunks] = useState([]);
   const [stems, setStems] = useState([]); // State to hold the audio buffers for each stem
   const [isLoading, setIsLoading] = useState(false);
-  const theme = useTheme();
-  const isXs = useMediaQuery(theme.breakpoints.down("sm"));
-
-  const sourceNodeRef = useRef(null); // For keeping track of the current source node
+  const stemNames = ["Vocals", "Drums", "Bass", "Accompaniment"];
+  const getSliderColor = (index) => {
+    const colors = ["#ff9800", "#cc1b1b", "#ffc000", "#9a4f00"]; // Example colors: Red, Blue, Purple, Green
+    return colors[index % colors.length]; // Repeat colors if there are more sliders than colors
+  };
 
   const audioCtxRef = useRef(null);
 
@@ -83,13 +77,22 @@ const AudioPlayer = () => {
 
       console.log("Stems processed and stored in state.", stems);
       setStems(stems); // Assuming you have a setStems function to update your state
+      setIsLoading(false); // Stop loading
+      onSongUploaded(true); // Notify App that a song has been uploaded
     } catch (error) {
       console.error("Error sending file:", error);
+      setIsLoading(false); // Ensure loading is stopped on error
+      onSongUploaded(false); // Notify App that upload failed
     }
   };
 
-  //*******************************SPLITTING INTO CHUNKS*********************
+  //*******************************SINGER SELECT TRIGGER*********************
+  useEffect(() => {
+    console.log("New singer selected:", selectedSinger);
+    // You can place any logic here that needs to run when the singer changes
+  }, [selectedSinger]); // Add selectedSinger as a dependency to useEffect
 
+  //*******************************SPLITTING INTO CHUNKS*********************
   useEffect(() => {
     if (stems.length > 0) {
       // Temporary array to hold chunks for each stem
@@ -246,14 +249,18 @@ const AudioPlayer = () => {
 
   //*******************************SLIDER*********************
   const handleSliderChange = (event, newValue) => {
-    handleStop(); // This stops the current playback and resets if necessary
-    setCurrentChunkIndex(newValue); // Updates the chunk index without starting playback
+    if (stems.length > 0 && !isLoading) {
+      handleStop(); // This stops the current playback and resets if necessary
+      setCurrentChunkIndex(newValue); // Updates the chunk index without starting playback
+    }
   };
 
   const handleSliderCommit = (event, newValue) => {
-    console.log("Commit Slider");
-    setIsPlaying(true);
-    playChunkAtIndex(currentChunkIndex); // Resume playback from the new chunk if it was playing before
+    if (stems.length > 0 && !isLoading) {
+      console.log("Commit Slider");
+      setIsPlaying(true);
+      playChunkAtIndex(currentChunkIndex); // Resume playback from the new chunk if it was playing before
+    }
   };
 
   //*******************************VOLUMES*********************
@@ -334,10 +341,18 @@ const AudioPlayer = () => {
             marginBottom: 16,
           }}
         >
-          <IconButton onClick={handlePlayPause}>
+          <IconButton
+            onClick={handlePlayPause}
+            style={{ opacity: stems.length > 0 ? 1 : 0.5 }}
+            disabled={stems.length === 0 || isLoading}
+          >
             {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
           </IconButton>
-          <IconButton onClick={handleStop}>
+          <IconButton
+            onClick={handleStop}
+            style={{ opacity: stems.length > 0 ? 1 : 0.5 }}
+            disabled={stems.length === 0 || isLoading}
+          >
             <StopIcon />
           </IconButton>
         </div>
@@ -354,22 +369,24 @@ const AudioPlayer = () => {
           disabled={stems.length === 0 || isLoading} // Disable the slider when stems are not loaded or still loading
         />
 
-        <Typography
-          variant="caption"
-          component="div"
-          color="textSecondary"
-          style={{
-            fontSize: "15px",
-            fontWeight: "550",
-            borderRadius: "10px",
-            textTransform: "none",
-            fontFamily: "Roboto, Helvetica, Arial, sans-serif",
-          }}
-        >
-          {`Chunk ${currentChunkIndex} of ${
-            chunks.length > 0 && chunks[0] ? chunks[0].length - 1 : 0
-          }`}
-        </Typography>
+        {stems.length > 0 && (
+          <Typography
+            variant="caption"
+            component="div"
+            color="textSecondary"
+            style={{
+              fontSize: "15px",
+              fontWeight: "550",
+              borderRadius: "10px",
+              textTransform: "none",
+              fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+            }}
+          >
+            {`Chunk ${currentChunkIndex} of ${
+              chunks.length > 0 && chunks[0] ? chunks[0].length - 1 : 0
+            }`}
+          </Typography>
+        )}
       </div>
       <Grid
         container
@@ -379,7 +396,7 @@ const AudioPlayer = () => {
         spacing={2}
         style={{ marginTop: 20 }}
       >
-        {Array.from({ length: numberOfStems }).map((_, index) => (
+        {stemNames.map((name, index) => (
           <Grid
             item
             xs={12}
@@ -402,7 +419,7 @@ const AudioPlayer = () => {
                 fontFamily: "Roboto, Helvetica, Arial, sans-serif",
               }}
             >
-              Stem {index + 1}
+              {name}
             </Typography>
             <div
               style={{
@@ -428,7 +445,7 @@ const AudioPlayer = () => {
                 step={0.01}
                 onChange={(e, val) => handleVolumeChange(index, val)}
                 aria-labelledby={`horizontal-slider-${index}`}
-                sx={{ flexGrow: 1 }}
+                sx={{ flexGrow: 1, color: getSliderColor(index) }} // Set the color dynamically
               />
               <IconButton
                 onClick={() =>

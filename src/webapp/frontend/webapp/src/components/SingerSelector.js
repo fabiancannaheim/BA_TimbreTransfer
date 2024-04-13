@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 
-export default function SingerSelector({ onSingerChange }) {
+export default function SingerSelector({ onSingerChange, isSongUploaded }) {
   const [selectedSinger, setSelectedSinger] = useState("");
 
   const handleSingerChange = (event) => {
@@ -15,11 +15,12 @@ export default function SingerSelector({ onSingerChange }) {
   return (
     <FormControl
       style={{
-        minWidth: 100, // Ensuring a minimum width of 50px
-        color: "black", // Sets text color to white
+        minWidth: 100, // Ensuring a minimum width of 100px
+        color: "black", // Sets text color to black
       }}
+      disabled={!isSongUploaded} // Disable the control if no song is uploaded
     >
-      <InputLabel id="singer-select-label">Singer</InputLabel>
+      <InputLabel id="singer-select-label">Original</InputLabel>
       <Select
         labelId="singer-select-label"
         id="singer-select"
