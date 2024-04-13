@@ -1,4 +1,8 @@
+#root{
+  padding-left: 20px;
+  padding-right: 20px;
 
+}
 
 .App {
   text-align: center;
@@ -23,12 +27,31 @@
   border-radius: 10px;
 }
 
+/* Media query for mobile devices */
+@media (max-width: 600px) {
+  .title-banner {
+    font-size: 10px; /* Smaller font size */
+    text-align: left; /* Align text to the left */
+    padding-left: 20px; /* Additional padding to maintain some space from the edge */
+  }
+}
+
 /* This class will be used to position the SingerSelector */
 .singer-selector {
   position: absolute;
   top: 50%; /* Aligns the top edge of the element with the vertical middle of the title-banner */
   right: 16px; /* Distance from the right edge of the title-banner */
   transform: translateY(-50%); /* Moves the element up by half its height to center it vertically */
+}
+
+/* Media query for mobile devices */
+@media (max-width: 600px) {
+  .singer-selector {
+    position: absolute;
+    top: 50%; /* Aligns the top edge of the element with the vertical middle of the title-banner */
+    right: 8px; /* Distance from the right edge of the title-banner */
+    transform: translateY(-50%); /* Moves the element up by half its height to center it vertically */
+  }
 }
 
 
