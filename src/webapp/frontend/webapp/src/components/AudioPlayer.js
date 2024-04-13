@@ -22,6 +22,10 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
   const [stems, setStems] = useState([]); // State to hold the audio buffers for each stem
   const [isLoading, setIsLoading] = useState(false);
   const stemNames = ["Vocals", "Drums", "Bass", "Accompaniment"];
+  const getSliderColor = (index) => {
+    const colors = ["#ff9800", "#cc1b1b", "#ffc000", "#9a4f00"]; // Example colors: Red, Blue, Purple, Green
+    return colors[index % colors.length]; // Repeat colors if there are more sliders than colors
+  };
 
   const audioCtxRef = useRef(null);
 
@@ -337,10 +341,18 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
             marginBottom: 16,
           }}
         >
-          <IconButton onClick={handlePlayPause}>
+          <IconButton
+            onClick={handlePlayPause}
+            style={{ opacity: stems.length > 0 ? 1 : 0.5 }}
+            disabled={stems.length === 0 || isLoading}
+          >
             {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
           </IconButton>
-          <IconButton onClick={handleStop}>
+          <IconButton
+            onClick={handleStop}
+            style={{ opacity: stems.length > 0 ? 1 : 0.5 }}
+            disabled={stems.length === 0 || isLoading}
+          >
             <StopIcon />
           </IconButton>
         </div>
@@ -357,22 +369,24 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
           disabled={stems.length === 0 || isLoading} // Disable the slider when stems are not loaded or still loading
         />
 
-        <Typography
-          variant="caption"
-          component="div"
-          color="textSecondary"
-          style={{
-            fontSize: "15px",
-            fontWeight: "550",
-            borderRadius: "10px",
-            textTransform: "none",
-            fontFamily: "Roboto, Helvetica, Arial, sans-serif",
-          }}
-        >
-          {`Chunk ${currentChunkIndex} of ${
-            chunks.length > 0 && chunks[0] ? chunks[0].length - 1 : 0
-          }`}
-        </Typography>
+        {stems.length > 0 && (
+          <Typography
+            variant="caption"
+            component="div"
+            color="textSecondary"
+            style={{
+              fontSize: "15px",
+              fontWeight: "550",
+              borderRadius: "10px",
+              textTransform: "none",
+              fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+            }}
+          >
+            {`Chunk ${currentChunkIndex} of ${
+              chunks.length > 0 && chunks[0] ? chunks[0].length - 1 : 0
+            }`}
+          </Typography>
+        )}
       </div>
       <Grid
         container
@@ -405,8 +419,7 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
                 fontFamily: "Roboto, Helvetica, Arial, sans-serif",
               }}
             >
-              {name}{" "}
-              {/* Use the name from the array instead of generating it */}
+              {name}
             </Typography>
             <div
               style={{
@@ -432,7 +445,7 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
                 step={0.01}
                 onChange={(e, val) => handleVolumeChange(index, val)}
                 aria-labelledby={`horizontal-slider-${index}`}
-                sx={{ flexGrow: 1 }}
+                sx={{ flexGrow: 1, color: getSliderColor(index) }} // Set the color dynamically
               />
               <IconButton
                 onClick={() =>
