@@ -21,7 +21,7 @@ const AudioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [loopFlag, setLoopFlag] = useState(false);
   const [volumes, setVolumes] = useState([1, 1, 1, 1]); // Initialize volumes for 4 stems
-  const numberOfStems = 2; // You can change this based on how many stems you have
+  const numberOfStems = 4; // You can change this based on how many stems you have
   const gainNodes = useRef([]); // Ref to store gain nodes
   const sourceNodes = useRef([]); // Ref to store source nodes
   const [currentChunkIndex, setCurrentChunkIndex] = useState(1);
@@ -48,7 +48,7 @@ const AudioPlayer = () => {
 
     try {
       const response = await axios.post(
-        "http://160.85.252.197/api/spleeter/2stems",
+        "http://160.85.252.197/api/spleeter/4stems",
         formData,
         {
           headers: {
@@ -351,6 +351,7 @@ const AudioPlayer = () => {
           aria-labelledby="chunk-slider"
           sx={{ width: "90%", maxWidth: "800px" }}
           color="antrazit"
+          disabled={stems.length === 0 || isLoading} // Disable the slider when stems are not loaded or still loading
         />
 
         <Typography
