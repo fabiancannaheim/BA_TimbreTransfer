@@ -9,6 +9,7 @@ import AudioUploader from "./AudioUploader";
 import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 import JSZip from "jszip";
+import toWav from "audiobuffer-to-wav";
 
 const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -39,6 +40,7 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
     setIsLoading(true); // Start loading
     const formData = new FormData();
     formData.append("audio", file);
+    console.log("Spleeter AudioData", file);
 
     try {
       const response = await axios.post(
@@ -86,11 +88,153 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
     }
   };
 
-  //*******************************SINGER SELECT TRIGGER*********************
+  //*******************************SINGER SELECT DDSP CALL*********************
   useEffect(() => {
     console.log("New singer selected:", selectedSinger);
-    // You can place any logic here that needs to run when the singer changes
-  }, [selectedSinger]); // Add selectedSinger as a dependency to useEffect
+
+    if (!stems[0]) {
+      console.error("No vocal stem available at index 0.");
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true); // Start loading
+
+    // Convert the AudioBuffer to a WAV Blob
+    const wavBlob = audioBufferToWavBlob(stems[0]);
+
+    // Create a File from the Blob
+    const file = new File([wavBlob], "file.wav", {
+      type: "audio/wav",
+      lastModified: Date.now(),
+    });
+
+    console.log("DDSP AudioData", file);
+
+    // Automatically download the file to the user's device
+    const url = URL.createObjectURL(file);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "Vocal_stem.wav"); // Set the download attribute (HTML5)
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url); // Clean up and revoke the URL
+
+    // Prepare FormData
+    const formData = new FormData();
+    formData.append("audioFile", file);
+
+    // Perform the POST request
+    axios
+      .post("http://160.85.252.197/api/ddsp/sax", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        responseType: "blob",
+      })
+      .then((response) => {
+        console.log("Response received:", response);
+        setIsLoading(false);
+        if (response.status !== 200) {
+          console.error("Error response status:", response.status);
+          return;
+        }
+
+        const contentType = response.headers["content-type"];
+        if (!contentType.includes("audio")) {
+          console.error("Unexpected content type:", contentType);
+          return;
+        }
+
+        // Process the response arrayBuffer
+        response.data
+          .arrayBuffer()
+          .then((arrayBuffer) => {
+            console.log("ArrayBuffer received, decoding...");
+            audioCtxRef.current
+              .decodeAudioData(arrayBuffer)
+              .then((decodedAudioBuffer) => {
+                console.log("AudioBuffer decoded, processing chunks...");
+                const newChunks = splitBufferIntoChunks(decodedAudioBuffer);
+                setChunks((prevChunks) => {
+                  const updatedChunks = [...prevChunks];
+                  updatedChunks[0] = newChunks;
+                  console.log("Chunks updated:", newChunks);
+                  return updatedChunks;
+                });
+              })
+              .catch((error) => {
+                console.error("Error decoding audio data:", error);
+              });
+          })
+          .catch((error) => {
+            console.error("Error getting ArrayBuffer from response:", error);
+          });
+      })
+      .catch((error) => {
+        console.error("Error sending request:", error);
+        setIsLoading(false);
+      });
+  }, [selectedSinger]); // Ensure all dependencies are listed correctly
+
+  function audioBufferToWavBlob(audioBuffer) {
+    const numOfChan = audioBuffer.numberOfChannels,
+      length = audioBuffer.length * numOfChan * 2 + 44,
+      buffer = new ArrayBuffer(length),
+      view = new DataView(buffer);
+    let pos = 0;
+
+    // Write WAV header
+    setUint32(view, pos, 0x46464952); // "RIFF"
+    pos += 4;
+    setUint32(view, pos, length - 8); // File size - 8
+    pos += 4;
+    setUint32(view, pos, 0x45564157); // "WAVE"
+    pos += 4;
+    setUint32(view, pos, 0x20746d66); // "fmt "
+    pos += 4;
+    setUint32(view, pos, 16); // Length of "fmt" chunk
+    pos += 4;
+    setUint16(view, pos, 1); // Audio format (1 - PCM)
+    pos += 2;
+    setUint16(view, pos, numOfChan); // Number of channels
+    pos += 2;
+    setUint32(view, pos, audioBuffer.sampleRate); // Sample rate
+    pos += 4;
+    setUint32(view, pos, audioBuffer.sampleRate * 2 * numOfChan); // Byte rate
+    pos += 4;
+    setUint16(view, pos, numOfChan * 2); // Block align
+    pos += 2;
+    setUint16(view, pos, 16); // Bits per sample
+    pos += 2;
+    setUint32(view, pos, 0x61746164); // "data"
+    pos += 4;
+    setUint32(view, pos, length - pos - 4); // Subchunk2 size
+    pos += 4;
+
+    // Write interleaved data
+    for (let i = 0; i < audioBuffer.length; i++) {
+      for (let channel = 0; channel < numOfChan; channel++) {
+        let sample = Math.max(
+          -1,
+          Math.min(1, audioBuffer.getChannelData(channel)[i])
+        ); // Clipping
+        view.setInt16(pos, sample < 0 ? sample * 32768 : sample * 32767, true); // Convert to 16-bit
+        pos += 2;
+      }
+    }
+
+    function setUint32(view, pos, value) {
+      view.setUint32(pos, value, true);
+    }
+
+    function setUint16(view, pos, value) {
+      view.setUint16(pos, value, true);
+    }
+
+    return new Blob([buffer], { type: "audio/wav" });
+  }
 
   //*******************************SPLITTING INTO CHUNKS*********************
   useEffect(() => {
@@ -300,7 +444,7 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
             transform: "translate(-50%, -50%)", // Offset the element to the center of the viewport
             width: "220px", // Specific width for the element
             height: "150px", // Specific height for the element
-            backgroundColor: "rgba(121, 22, 22, 0.9)", // Dark red background with 0.5 opacity
+            backgroundColor: "rgba(121, 22, 22, 1)", // Dark red background with 0.5 opacity
             display: "flex",
             justifyContent: "center",
             alignItems: "center",

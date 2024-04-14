@@ -31,9 +31,9 @@ export default function SingerSelector({ onSingerChange, isSongUploaded }) {
           color: "white", // Sets text color to white
         }}
       >
-        <MenuItem value="Singer 1">MJ</MenuItem>
-        <MenuItem value="Singer 2">Beyonce</MenuItem>
-        <MenuItem value="Singer 3">Basil</MenuItem>
+        <MenuItem value="sax">Sax</MenuItem>
+        <MenuItem value="Beyonce">Beyonce</MenuItem>
+        <MenuItem value="Basil">Basil</MenuItem>
         {/* ...add as many MenuItem components as you have singers... */}
       </Select>
     </FormControl>
