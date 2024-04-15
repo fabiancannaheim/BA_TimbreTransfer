@@ -9,7 +9,6 @@ import AudioUploader from "./AudioUploader";
 import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 import JSZip from "jszip";
-import toWav from "audiobuffer-to-wav";
 
 const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -89,6 +88,7 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
   };
 
   //*******************************SINGER SELECT DDSP CALL*********************
+
   useEffect(() => {
     console.log("New singer selected:", selectedSinger);
 
@@ -180,7 +180,7 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
 
   function audioBufferToWavBlob(audioBuffer) {
     const numOfChan = audioBuffer.numberOfChannels,
-      length = audioBuffer.length * numOfChan * 2 + 44,
+      length = audioBuffer.length * numOfChan * 3 + 44, // Adjust length for 24-bit samples
       buffer = new ArrayBuffer(length),
       view = new DataView(buffer);
     let pos = 0;
@@ -202,11 +202,11 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
     pos += 2;
     setUint32(view, pos, audioBuffer.sampleRate); // Sample rate
     pos += 4;
-    setUint32(view, pos, audioBuffer.sampleRate * 2 * numOfChan); // Byte rate
+    setUint32(view, pos, audioBuffer.sampleRate * 3 * numOfChan); // Adjust byte rate for 24-bit
     pos += 4;
-    setUint16(view, pos, numOfChan * 2); // Block align
+    setUint16(view, pos, numOfChan * 3); // Adjust block align for 24-bit
     pos += 2;
-    setUint16(view, pos, 16); // Bits per sample
+    setUint16(view, pos, 24); // Bits per sample, now 24
     pos += 2;
     setUint32(view, pos, 0x61746164); // "data"
     pos += 4;
@@ -220,11 +220,15 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
           -1,
           Math.min(1, audioBuffer.getChannelData(channel)[i])
         ); // Clipping
-        view.setInt16(pos, sample < 0 ? sample * 32768 : sample * 32767, true); // Convert to 16-bit
-        pos += 2;
+        let intSample = Math.floor(
+          sample < 0 ? sample * 8388608 : sample * 8388607
+        ); // Convert to 24-bit sample
+        view.setInt8(pos, intSample & 0xff); // Write lowest byte
+        view.setInt8(pos + 1, (intSample >> 8) & 0xff); // Write middle byte
+        view.setInt8(pos + 2, (intSample >> 16) & 0xff); // Write highest byte
+        pos += 3; // Move position by 3 bytes for 24-bit
       }
     }
-
     function setUint32(view, pos, value) {
       view.setUint32(pos, value, true);
     }
@@ -232,7 +236,6 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
     function setUint16(view, pos, value) {
       view.setUint16(pos, value, true);
     }
-
     return new Blob([buffer], { type: "audio/wav" });
   }
 

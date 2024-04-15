@@ -5,6 +5,8 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@ffmpeg/core": "^0.12.6",
+    "@ffmpeg/ffmpeg": "^0.10.1",
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
     "@tensorflow-models/mobilenet": "^2.1.1",
@@ -14,6 +16,7 @@
     "@testing-library/user-event": "^13.5.0",
     "audiobuffer-to-wav": "^1.0.0",
     "axios": "^1.6.8",
+    "fluent-ffmpeg": "^2.1.2",
     "jszip": "^3.10.1",
     "lamejs": "^1.2.1",
     "react": "^18.2.0",
