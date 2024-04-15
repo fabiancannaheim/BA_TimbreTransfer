@@ -1,7 +1,7 @@
 #root {
   padding-left: 20px;
   padding-right: 20px;
-  background-image: linear-gradient(to right, #d5b4ff, #ffffff 30%, #ffffff 70%, #d5b4ff);
+  background-image: linear-gradient(to top, hsl(0, 100%, 90%), #ffffff); /* Gradient from dark red to lighter red */
   min-height: 100vh; /* Ensures the gradient covers the full height of the viewport */
 }
 
@@ -19,8 +19,8 @@
   
   font-size: 20px;
   font-weight: bold;
-  margin: 0px auto;
-  margin-bottom: 10px;
+  margin: 10px auto;
+ 
   color: #FFFFFF;
   background-image: linear-gradient(to left, #9e05cd, #ff9800); /* Gradient from dark red to lighter red */
   padding: 10px;
