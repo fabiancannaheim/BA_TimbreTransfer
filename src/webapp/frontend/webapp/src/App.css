@@ -1,7 +1,8 @@
-#root{
+#root {
   padding-left: 20px;
   padding-right: 20px;
-
+  background-image: linear-gradient(to right, #d5b4ff, #ffffff 30%, #ffffff 70%, #d5b4ff);
+  min-height: 100vh; /* Ensures the gradient covers the full height of the viewport */
 }
 
 .App {
@@ -18,9 +19,10 @@
   
   font-size: 20px;
   font-weight: bold;
-  margin: 10px auto;
+  margin: 0px auto;
+  margin-bottom: 10px;
   color: #FFFFFF;
-  background-color: #791616;
+  background-image: linear-gradient(to left, #9e05cd, #ff9800); /* Gradient from dark red to lighter red */
   padding: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   max-width: 800px;
