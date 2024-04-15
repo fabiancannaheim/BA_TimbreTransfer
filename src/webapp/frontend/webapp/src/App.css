@@ -22,7 +22,7 @@
   margin: 10px auto;
  
   color: #FFFFFF;
-  background-image: linear-gradient(to left, #b701ff, #ff9800); /* Gradient from dark red to lighter red */
+  background-image: linear-gradient(to left, #ff2b2b, #ff9800); /* Gradient from dark red to lighter red */
   padding: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   max-width: 800px;
