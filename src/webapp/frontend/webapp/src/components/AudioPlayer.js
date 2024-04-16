@@ -11,6 +11,7 @@ import axios from "axios";
 import JSZip from "jszip";
 
 const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
+  const [baseFileName, setBaseFileName] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
   const [loopFlag, setLoopFlag] = useState(false);
   const [volumes, setVolumes] = useState([1, 1, 1, 1]); // Initialize volumes for 4 stems
@@ -36,10 +37,15 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
 
   //*******************************UPLOADING AND PROCESSING FILE*********************
   const handleFileUpload = async (file) => {
+
+    const newName = file.name.replace(/\.(wav|mp3)$/, "")
+    setBaseFileName(newName);
+
+    console.log(newName)
+
     setIsLoading(true); // Start loading
     const formData = new FormData();
     formData.append("audio", file);
-    console.log("Spleeter AudioData", file);
 
     try {
       const response = await axios.post(
@@ -49,16 +55,16 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-          responseType: "blob", // Ensure you receive a blob response
+          responseType: "arraybuffer", // Ensure you receive a blob response
         }
       );
 
       if (response.status !== 200) {
         throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
+      }      
+    
       // Assuming the response is a blob of a ZIP file
-      const blob = response.data;
+      const blob = new Blob([response.data], { type: 'application/zip' });
       const zip = new JSZip();
       const zipContents = await zip.loadAsync(blob);
       const files = Object.keys(zipContents.files).filter(
@@ -73,10 +79,9 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
         const audioBuffer = await audioCtxRef.current.decodeAudioData(
           arrayBuffer
         );
-        stems.push(audioBuffer); // Save each stem's buffer
+        stems.push(audioBuffer);
       }
 
-      console.log("Stems processed and stored in state.", stems);
       setStems(stems); // Assuming you have a setStems function to update your state
       setIsLoading(false); // Stop loading
       onSongUploaded(true); // Notify App that a song has been uploaded
@@ -90,50 +95,21 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
   //*******************************SINGER SELECT DDSP CALL*********************
 
   useEffect(() => {
-    console.log("New singer selected:", selectedSinger);
 
     if (!stems[0]) {
-      console.error("No vocal stem available at index 0.");
       setIsLoading(false);
       return;
     }
 
     setIsLoading(true); // Start loading
 
-    // Convert the AudioBuffer to a WAV Blob
-    const wavBlob = audioBufferToWavBlob(stems[0]);
-
-    // Create a File from the Blob
-    const file = new File([wavBlob], "file.wav", {
-      type: "audio/wav",
-      lastModified: Date.now(),
-    });
-
-    console.log("DDSP AudioData", file);
-
-    // Automatically download the file to the user's device
-    const url = URL.createObjectURL(file);
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", "Vocal_stem.wav"); // Set the download attribute (HTML5)
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url); // Clean up and revoke the URL
-
-    // Prepare FormData
-    const formData = new FormData();
-    formData.append("audioFile", file);
+    console.log(`http://160.85.252.197/api/ddsp/sax/${baseFileName}/vocals`)
 
     // Perform the POST request
     axios
-      .post("http://160.85.252.197/api/ddsp/sax", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        responseType: "blob",
-      })
-      .then((response) => {
+      .post(`http://160.85.252.197/api/ddsp/sax/${baseFileName}/vocals`, {}, {
+          responseType: "blob",
+      }).then((response) => {
         console.log("Response received:", response);
         setIsLoading(false);
         if (response.status !== 200) {
@@ -148,15 +124,13 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
         }
 
         // Process the response arrayBuffer
-        response.data
-          .arrayBuffer()
-          .then((arrayBuffer) => {
-            console.log("ArrayBuffer received, decoding...");
-            audioCtxRef.current
-              .decodeAudioData(arrayBuffer)
+        response.data.arrayBuffer().then((arrayBuffer) => {
+            console.log("ArrayBuffer received, decoding...", arrayBuffer.byteLength);
+            audioCtxRef.current.decodeAudioData(arrayBuffer)
               .then((decodedAudioBuffer) => {
                 console.log("AudioBuffer decoded, processing chunks...");
-                const newChunks = splitBufferIntoChunks(decodedAudioBuffer);
+                console.log(decodedAudioBuffer)
+                const newChunks = splitBufferIntoChunks(decodedAudioBuffer, 2);
                 setChunks((prevChunks) => {
                   const updatedChunks = [...prevChunks];
                   updatedChunks[0] = newChunks;
@@ -178,66 +152,6 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
       });
   }, [selectedSinger]); // Ensure all dependencies are listed correctly
 
-  function audioBufferToWavBlob(audioBuffer) {
-    const numOfChan = audioBuffer.numberOfChannels,
-      length = audioBuffer.length * numOfChan * 3 + 44, // Adjust length for 24-bit samples
-      buffer = new ArrayBuffer(length),
-      view = new DataView(buffer);
-    let pos = 0;
-
-    // Write WAV header
-    setUint32(view, pos, 0x46464952); // "RIFF"
-    pos += 4;
-    setUint32(view, pos, length - 8); // File size - 8
-    pos += 4;
-    setUint32(view, pos, 0x45564157); // "WAVE"
-    pos += 4;
-    setUint32(view, pos, 0x20746d66); // "fmt "
-    pos += 4;
-    setUint32(view, pos, 16); // Length of "fmt" chunk
-    pos += 4;
-    setUint16(view, pos, 1); // Audio format (1 - PCM)
-    pos += 2;
-    setUint16(view, pos, numOfChan); // Number of channels
-    pos += 2;
-    setUint32(view, pos, audioBuffer.sampleRate); // Sample rate
-    pos += 4;
-    setUint32(view, pos, audioBuffer.sampleRate * 3 * numOfChan); // Adjust byte rate for 24-bit
-    pos += 4;
-    setUint16(view, pos, numOfChan * 3); // Adjust block align for 24-bit
-    pos += 2;
-    setUint16(view, pos, 24); // Bits per sample, now 24
-    pos += 2;
-    setUint32(view, pos, 0x61746164); // "data"
-    pos += 4;
-    setUint32(view, pos, length - pos - 4); // Subchunk2 size
-    pos += 4;
-
-    // Write interleaved data
-    for (let i = 0; i < audioBuffer.length; i++) {
-      for (let channel = 0; channel < numOfChan; channel++) {
-        let sample = Math.max(
-          -1,
-          Math.min(1, audioBuffer.getChannelData(channel)[i])
-        ); // Clipping
-        let intSample = Math.floor(
-          sample < 0 ? sample * 8388608 : sample * 8388607
-        ); // Convert to 24-bit sample
-        view.setInt8(pos, intSample & 0xff); // Write lowest byte
-        view.setInt8(pos + 1, (intSample >> 8) & 0xff); // Write middle byte
-        view.setInt8(pos + 2, (intSample >> 16) & 0xff); // Write highest byte
-        pos += 3; // Move position by 3 bytes for 24-bit
-      }
-    }
-    function setUint32(view, pos, value) {
-      view.setUint32(pos, value, true);
-    }
-
-    function setUint16(view, pos, value) {
-      view.setUint16(pos, value, true);
-    }
-    return new Blob([buffer], { type: "audio/wav" });
-  }
 
   //*******************************SPLITTING INTO CHUNKS*********************
   useEffect(() => {
