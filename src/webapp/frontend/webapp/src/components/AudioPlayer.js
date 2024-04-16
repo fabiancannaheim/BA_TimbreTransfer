@@ -124,15 +124,13 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
         }
 
         // Process the response arrayBuffer
-        response.data
-          .arrayBuffer()
-          .then((arrayBuffer) => {
-            console.log("ArrayBuffer received, decoding...");
-            audioCtxRef.current
-              .decodeAudioData(arrayBuffer)
+        response.data.arrayBuffer().then((arrayBuffer) => {
+            console.log("ArrayBuffer received, decoding...", arrayBuffer.byteLength);
+            audioCtxRef.current.decodeAudioData(arrayBuffer)
               .then((decodedAudioBuffer) => {
                 console.log("AudioBuffer decoded, processing chunks...");
-                const newChunks = splitBufferIntoChunks(decodedAudioBuffer);
+                console.log(decodedAudioBuffer)
+                const newChunks = splitBufferIntoChunks(decodedAudioBuffer, 2);
                 setChunks((prevChunks) => {
                   const updatedChunks = [...prevChunks];
                   updatedChunks[0] = newChunks;
