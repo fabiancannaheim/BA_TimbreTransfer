@@ -7,6 +7,7 @@ import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeDownIcon from "@mui/icons-material/VolumeDown";
 import AudioUploader from "./AudioUploader";
 import CircularProgress from "@mui/material/CircularProgress";
+import * as tf from "@tensorflow/tfjs";
 import axios from "axios";
 import JSZip from "jszip";
 
@@ -37,11 +38,10 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
 
   //*******************************UPLOADING AND PROCESSING FILE*********************
   const handleFileUpload = async (file) => {
-
-    const newName = file.name.replace(/\.(wav|mp3)$/, "")
+    const newName = file.name.replace(/\.(wav|mp3)$/, "");
     setBaseFileName(newName);
 
-    console.log(newName)
+    console.log(newName);
 
     setIsLoading(true); // Start loading
     const formData = new FormData();
@@ -61,10 +61,10 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
 
       if (response.status !== 200) {
         throw new Error(`HTTP error! status: ${response.status}`);
-      }      
-    
+      }
+
       // Assuming the response is a blob of a ZIP file
-      const blob = new Blob([response.data], { type: 'application/zip' });
+      const blob = new Blob([response.data], { type: "application/zip" });
       const zip = new JSZip();
       const zipContents = await zip.loadAsync(blob);
       const files = Object.keys(zipContents.files).filter(
@@ -95,63 +95,64 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
   //*******************************SINGER SELECT DDSP CALL*********************
 
   useEffect(() => {
-
-    if (!stems[0]) {
+    if (!chunks || !chunks[0] || !chunks[0][0]) {
       setIsLoading(false);
       return;
     }
 
-    setIsLoading(true); // Start loading
+    const loadModelAndProcessAudio = async () => {
+      setIsLoading(true); // Start loading
 
-    console.log(`http://160.85.252.197/api/ddsp/sax/${baseFileName}/vocals`)
+      try {
+        // Assuming chunks[0][0] is the first chunk and is an AudioBuffer
+        const audioBuffer = chunks[0][0];
 
-    // Perform the POST request
-    axios
-      .post(`http://160.85.252.197/api/ddsp/sax/${baseFileName}/vocals`, {}, {
-          responseType: "blob",
-      }).then((response) => {
-        console.log("Response received:", response);
-        setIsLoading(false);
-        if (response.status !== 200) {
-          console.error("Error response status:", response.status);
-          return;
-        }
+        // For mono, we can just use one channel of audio data
+        // This uses the first channel. If you need to average channels, you'll need to add that logic.
+        const monoSamples = audioBuffer.getChannelData(0);
 
-        const contentType = response.headers["content-type"];
-        if (!contentType.includes("audio")) {
-          console.error("Unexpected content type:", contentType);
-          return;
-        }
+        // Create a tensor from the mono audio data
+        // The shape will be [1, audioBuffer.length] because we are processing one channel (mono)
+        const inputTensor = tf.tensor([monoSamples], [1, monoSamples.length]);
+        console.log("Tensor created:", inputTensor);
 
-        // Process the response arrayBuffer
-        response.data.arrayBuffer().then((arrayBuffer) => {
-            console.log("ArrayBuffer received, decoding...", arrayBuffer.byteLength);
-            audioCtxRef.current.decodeAudioData(arrayBuffer)
-              .then((decodedAudioBuffer) => {
-                console.log("AudioBuffer decoded, processing chunks...");
-                console.log(decodedAudioBuffer)
-                const newChunks = splitBufferIntoChunks(decodedAudioBuffer, 2);
-                setChunks((prevChunks) => {
-                  const updatedChunks = [...prevChunks];
-                  updatedChunks[0] = newChunks;
-                  console.log("Chunks updated:", newChunks);
-                  return updatedChunks;
-                });
-              })
-              .catch((error) => {
-                console.error("Error decoding audio data:", error);
-              });
-          })
-          .catch((error) => {
-            console.error("Error getting ArrayBuffer from response:", error);
-          });
-      })
-      .catch((error) => {
-        console.error("Error sending request:", error);
-        setIsLoading(false);
-      });
-  }, [selectedSinger]); // Ensure all dependencies are listed correctly
+        const model = await tf.loadGraphModel(
+          "/models/js_sax_album_end2end_48khz/model.json"
+        );
 
+        // Use executeAsync for models with dynamic ops
+        const outputTensor = await model.executeAsync(inputTensor);
+        console.log("Prediction completed:", outputTensor);
+
+        // Convert the tensor to an ArrayBuffer if necessary
+        const buffer = await outputTensor.arrayBuffer();
+        console.log("ArrayBuffer received, decoding...", buffer.byteLength);
+
+        // Decode the audio data to an AudioBuffer
+        const decodedAudioBuffer = await audioCtxRef.current.decodeAudioData(
+          buffer
+        );
+        console.log("AudioBuffer decoded, processing chunks...");
+        console.log(decodedAudioBuffer);
+
+        // Update only the first chunk of the first stem
+        setChunks((prevChunks) => {
+          const updatedChunks = [...prevChunks];
+          if (updatedChunks[0]) {
+            updatedChunks[0][0] = decodedAudioBuffer; // Replace the processed chunk
+          }
+          console.log("First chunk updated:", updatedChunks[0][0]);
+          return updatedChunks;
+        });
+      } catch (error) {
+        console.error("Error during model loading or audio processing:", error);
+      }
+
+      setIsLoading(false);
+    };
+
+    loadModelAndProcessAudio();
+  }, [selectedSinger]); // Make sure the effect is triggered by changes to either 'chunks' or 'selectedSinger'
 
   //*******************************SPLITTING INTO CHUNKS*********************
   useEffect(() => {
