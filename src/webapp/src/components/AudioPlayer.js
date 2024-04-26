@@ -7,9 +7,17 @@ import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeDownIcon from "@mui/icons-material/VolumeDown";
 import AudioUploader from "./AudioUploader";
 import CircularProgress from "@mui/material/CircularProgress";
-import * as tf from "@tensorflow/tfjs";
 import axios from "axios";
 import JSZip from "jszip";
+import * as tf from "@tensorflow/tfjs";
+
+// Adjusting some more specific flags to see if it helps resolve the shader issues
+tf.env().set("WEBGL_PACK", true); // You may try toggling this again
+tf.env().set("WEBGL_PACK_DEPTHWISECONV", true);
+tf.env().set("WEBGL_CONV_IM2COL", true);
+tf.env().set("WEBGL_MAX_TEXTURE_SIZE", 16384); // Depending on GPU capacity
+tf.env().set("WEBGL_LAZILY_UNPACK", true);
+tf.env().set("WEBGL_DISJOINT_QUERY_TIMER_EXTENSION_VERSION", 2); // If supported by your browser
 
 const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
   const [baseFileName, setBaseFileName] = useState("");
@@ -21,6 +29,7 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
   const sourceNodes = useRef([]); // Ref to store source nodes
   const [currentChunkIndex, setCurrentChunkIndex] = useState(1);
   const [chunks, setChunks] = useState([]);
+  const [origChunks, setOrigChunks] = useState([]);
   const [stems, setStems] = useState([]); // State to hold the audio buffers for each stem
   const [isLoading, setIsLoading] = useState(false);
   const stemNames = ["Vocals", "Drums", "Bass", "Accompaniment"];
@@ -31,13 +40,12 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
 
   const audioCtxRef = useRef(null);
 
-  if (!audioCtxRef.current) {
-    audioCtxRef.current = new (window.AudioContext ||
-      window.webkitAudioContext)();
+  if (!audioCtxRef.current || audioCtxRef.current.state === "closed") {
+    audioCtxRef.current = new AudioContext({ sampleRate: 48000 });
   }
-
   //*******************************UPLOADING AND PROCESSING FILE*********************
   const handleFileUpload = async (file) => {
+    console.log("Entered Function");
     const newName = file.name.replace(/\.(wav|mp3)$/, "");
     setBaseFileName(newName);
 
@@ -92,77 +100,27 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
     }
   };
 
-  //*******************************SINGER SELECT DDSP CALL*********************
-
-  useEffect(() => {
-    if (!chunks || !chunks[0] || !chunks[0][0]) {
-      setIsLoading(false);
-      return;
-    }
-
-    const loadModelAndProcessAudio = async () => {
-      setIsLoading(true); // Start loading
-
-      try {
-        // Assuming chunks[0][0] is the first chunk and is an AudioBuffer
-        const audioBuffer = chunks[0][0];
-
-        // For mono, we can just use one channel of audio data
-        // This uses the first channel. If you need to average channels, you'll need to add that logic.
-        const monoSamples = audioBuffer.getChannelData(0);
-
-        // Create a tensor from the mono audio data
-        // The shape will be [1, audioBuffer.length] because we are processing one channel (mono)
-        const inputTensor = tf.tensor([monoSamples], [1, monoSamples.length]);
-        console.log("Tensor created:", inputTensor);
-
-        const model = await tf.loadGraphModel(
-          "/models/js_sax_album_end2end_48khz/model.json"
-        );
-
-        // Use executeAsync for models with dynamic ops
-        const outputTensor = await model.executeAsync(inputTensor);
-        console.log("Prediction completed:", outputTensor);
-
-        // Convert the tensor to an ArrayBuffer if necessary
-        const buffer = await outputTensor.arrayBuffer();
-        console.log("ArrayBuffer received, decoding...", buffer.byteLength);
-
-        // Decode the audio data to an AudioBuffer
-        const decodedAudioBuffer = await audioCtxRef.current.decodeAudioData(
-          buffer
-        );
-        console.log("AudioBuffer decoded, processing chunks...");
-        console.log(decodedAudioBuffer);
-
-        // Update only the first chunk of the first stem
-        setChunks((prevChunks) => {
-          const updatedChunks = [...prevChunks];
-          if (updatedChunks[0]) {
-            updatedChunks[0][0] = decodedAudioBuffer; // Replace the processed chunk
-          }
-          console.log("First chunk updated:", updatedChunks[0][0]);
-          return updatedChunks;
-        });
-      } catch (error) {
-        console.error("Error during model loading or audio processing:", error);
-      }
-
-      setIsLoading(false);
-    };
-
-    loadModelAndProcessAudio();
-  }, [selectedSinger]); // Make sure the effect is triggered by changes to either 'chunks' or 'selectedSinger'
-
   //*******************************SPLITTING INTO CHUNKS*********************
   useEffect(() => {
     if (stems.length > 0) {
       // Temporary array to hold chunks for each stem
       const allChunks = stems.map((stem) => splitBufferIntoChunks(stem, 2));
       setChunks(allChunks);
+      setOrigChunks(allChunks);
       setIsLoading(false); // Stop loading
     }
   }, [stems]); // Dependency on stems ensures this runs only when stems are updated
+
+  useEffect(() => {
+    if (selectedSinger == "Original") {
+      console.log("Restored Original Chunks");
+      setChunks(origChunks);
+    }
+  }, [selectedSinger]); // Dependency on stems ensures this runs only when stems are updated
+
+  useEffect(() => {
+    console.log("Current Selected Singer UseEffect:", selectedSinger); // Add this in both the parent and child components
+  }, [selectedSinger]);
 
   const splitBufferIntoChunks = (buffer, chunkDurationSec) => {
     const sampleRate = buffer.sampleRate;
@@ -235,7 +193,6 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
 
   //*******************************PLAY AT INDEX*********************
   const playChunkAtIndex = (index) => {
-    console.log("entered index", isPlaying);
     if (index < chunks[0].length && isPlaying) {
       // Disconnect and stop any previously playing sources
       if (sourceNodes.current.length) {
@@ -250,15 +207,30 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
       // Clear previous sources
       sourceNodes.current = [];
 
-      /*
-      if (index + 1 < chunks[0].length) {
-        processChunk(chunks[index + 1], index + 1).then((processedChunk) => {
-          // Update the chunks array with the processed chunk
-          const newChunks = [...chunks];
-          newChunks[index + 1] = processedChunk;
-          setChunks(newChunks);
-        });
-      } */
+      if (
+        index + 1 < chunks[0].length &&
+        selectedSinger &&
+        selectedSinger !== "Original"
+      ) {
+        processChunk(chunks[0][index + 1])
+          .then((processedChunk) => {
+            // Make sure processedChunk is valid before updating the state
+            if (processedChunk) {
+              setChunks((prevChunks) => {
+                const newChunks = [...prevChunks];
+                // Create a deep copy of the chunk array that needs updating
+                newChunks[0] = [...newChunks[0]];
+                // Update the specific chunk
+                newChunks[0][index + 1] = processedChunk;
+                // Return the newly updated state
+                return newChunks;
+              });
+            }
+          })
+          .catch((error) => {
+            console.error("Error processing chunk:", error);
+          });
+      }
 
       // Assuming each chunk contains separate channel data for each stem,
       // and each stem is a separate channel in the buffer
@@ -283,7 +255,6 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
       const vocalSource = sourceNodes.current[0];
       vocalSource.onended = () => {
         if (index + 1 < chunks[0].length) {
-          console.log("Entered callback", isPlaying, currentChunkIndex);
           setLoopFlag(!loopFlag);
         } else {
           setIsPlaying(false); // Stop playback if no more chunks are left
@@ -291,6 +262,75 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
       };
     }
   };
+
+  useEffect(() => {
+    console.log("Updated chunks state:", chunks);
+  }, [chunks]);
+
+  async function processChunk(buffer) {
+    try {
+      // Average channels to create mono
+      const processedAudioBuffer = await convertToMono(buffer);
+      const monoSamples = processedAudioBuffer.getChannelData(0);
+      console.log("Selected Singer:", selectedSinger);
+
+      // Send data to the server
+      const response = await fetch("http://160.85.43.209:8000/process/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          data: Array.from(monoSamples),
+          model_name: selectedSinger,
+        }),
+      });
+
+      if (response.ok) {
+        console.log("Response: ", response);
+        const responseData = await response.json();
+        const outputArray = responseData.output_data[0];
+
+        // Create an AudioBuffer directly with the response data
+        const audioCtx = new (window.AudioContext ||
+          window.webkitAudioContext)();
+        const newBuffer = audioCtx.createBuffer(
+          1,
+          outputArray.length,
+          audioCtx.sampleRate
+        );
+        newBuffer.copyToChannel(Float32Array.from(outputArray), 0);
+
+        return newBuffer;
+      } else {
+        console.error("Error response from server:", response.statusText);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error during chunk processing:", error);
+      return null;
+    }
+  }
+
+  // ConvertToMono function which creates an AudioBuffer that is mono
+  async function convertToMono(audioBuffer) {
+    const numberOfChannels = audioBuffer.numberOfChannels;
+    const length = audioBuffer.length;
+    const sampleRate = audioBuffer.sampleRate;
+    let monoBuffer = new Float32Array(length);
+
+    for (let channel = 0; channel < numberOfChannels; channel++) {
+      let channelData = audioBuffer.getChannelData(channel);
+      for (let i = 0; i < length; i++) {
+        monoBuffer[i] += channelData[i] / numberOfChannels;
+      }
+    }
+
+    const offlineCtx = new OfflineAudioContext(1, length, sampleRate);
+    const newBuffer = offlineCtx.createBuffer(1, length, sampleRate);
+    newBuffer.copyToChannel(monoBuffer, 0);
+    return newBuffer; // No need to startRendering since no up/downsampling is required
+  }
 
   // Remember to update your initialization of sourceNodes and gainNodes if not already defined:
   useEffect(() => {
@@ -300,14 +340,7 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
     );
   }, []);
 
-  //*******************************PROCESSING*********************
-  async function processChunk(buffer) {
-    // Simulate processing delay
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log("Chunk processed");
-    // Return the processed buffer or a new buffer
-    return buffer;
-  }
+  //*******************************PROCESSING CALLING DDSP*********************
 
   //*******************************SLIDER*********************
   const handleSliderChange = (event, newValue) => {
