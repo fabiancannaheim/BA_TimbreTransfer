@@ -33,11 +33,18 @@ export default function SingerSelector({ onSingerChange, isSongUploaded }) {
     <FormControl
       style={{
         minWidth: 100, // Ensuring a minimum width of 100px
-        color: "black", // Sets text color to black
+        color: "#080808", // Sets text color to black
       }}
       disabled={!isSongUploaded} // Disable the control if no song is uploaded
     >
-      <InputLabel id="singer-select-label">Swap</InputLabel>
+      <InputLabel
+        style={{
+          color: "#0F0F0F", // Sets text color to black
+        }}
+        id="singer-select-label"
+      >
+        Swap
+      </InputLabel>
       <Select
         labelId="singer-select-label"
         id="singer-select"

@@ -1,10 +1,16 @@
 #root {
   padding-left: 20px;
   padding-right: 20px;
-  
+  padding-top: 10px;
+  background-image: url("Background.webp");
   background-size: cover; /* Ensures the image covers the entire background */
   background-position: center; /* Centers the image */
   min-height: 100vh; /* Ensures the gradient covers the full height of the viewport */
+  overflow: hidden; /* This will hide the scrollbar */
+}
+
+html, body {
+  overflow: hidden;
 }
 
 .App {
@@ -21,12 +27,12 @@
   
   font-size: 20px;
   font-weight: bold;
-  margin: 10px auto;
+  margin: 0px auto;
+  margin-bottom: 10px;
  
-  color: #FFFFFF;
-  background-image: linear-gradient(to left, #ff00a2, #ff7700); /* Gradient from dark red to lighter red */
-  padding: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: #ffffff;
+  
+  
   max-width: 800px;
   border-radius: 10px;
 }
@@ -69,3 +75,7 @@
 }
 
 
+.audio-player-wrapper {
+  color: #121212; /* Solid black background */
+  /* Additional styling as needed */
+}
