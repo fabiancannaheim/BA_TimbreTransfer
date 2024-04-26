@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import AudioPlayer from "./components/AudioPlayer";
 import SingerSelector from "./components/SingerSelector";
-import StemSeparator from "./components/StemSeparator";
-import TimbreTransfer from "./components/TimbreTransfer";
-import Controls from "./components/Controls";
 import { orange } from "@mui/material/colors";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "./App.css";

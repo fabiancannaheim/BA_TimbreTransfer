@@ -13,12 +13,7 @@ export default function SingerSelector({ onSingerChange, isSongUploaded }) {
       .then((response) => {
         const models = response.data.model_names;
         // Include "Original" as a hardcoded singer
-        setSingers([
-          "Original",
-          ...models.map(
-            (singer) => singer.charAt(0).toUpperCase() + singer.slice(1)
-          ),
-        ]);
+        setSingers(["Original", ...models]);
       })
       .catch((error) => {
         console.error("Error fetching models:", error);
@@ -28,6 +23,7 @@ export default function SingerSelector({ onSingerChange, isSongUploaded }) {
   const handleSingerChange = (event) => {
     const singer = event.target.value;
     setSelectedSinger(singer);
+
     if (onSingerChange) {
       onSingerChange(singer);
     }
@@ -54,7 +50,7 @@ export default function SingerSelector({ onSingerChange, isSongUploaded }) {
       >
         {singers.map((singer) => (
           <MenuItem key={singer} value={singer}>
-            {singer}
+            {singer.charAt(0).toUpperCase() + singer.slice(1)}
           </MenuItem>
         ))}
       </Select>
