@@ -39,10 +39,12 @@ function App() {
           />
         </div>
       </div>
-      <AudioPlayer
-        onSongUploaded={handleSongUploaded}
-        selectedSinger={selectedSinger}
-      />
+      <div className="audio-player-wrapper">
+        <AudioPlayer
+          onSongUploaded={handleSongUploaded}
+          selectedSinger={selectedSinger}
+        />
+      </div>
     </ThemeProvider>
   );
 }

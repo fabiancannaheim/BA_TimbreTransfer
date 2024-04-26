@@ -34,7 +34,7 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
   const [isLoading, setIsLoading] = useState(false);
   const stemNames = ["Vocals", "Drums", "Bass", "Accompaniment"];
   const getSliderColor = (index) => {
-    const colors = ["#ff9800", "#cc1b1b", "#ffc000", "#9a4f00"]; // Example colors: Red, Blue, Purple, Green
+    const colors = ["#ff9800", "#ff9800", "#ff9800", "#ff9800"]; // Example colors: Red, Blue, Purple, Green
     return colors[index % colors.length]; // Repeat colors if there are more sliders than colors
   };
 
@@ -104,7 +104,7 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
   useEffect(() => {
     if (stems.length > 0) {
       // Temporary array to hold chunks for each stem
-      const allChunks = stems.map((stem) => splitBufferIntoChunks(stem, 2));
+      const allChunks = stems.map((stem) => splitBufferIntoChunks(stem, 1));
       setChunks(allChunks);
       setOrigChunks(allChunks);
       setIsLoading(false); // Stop loading
@@ -395,7 +395,8 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
             transform: "translate(-50%, -50%)", // Offset the element to the center of the viewport
             width: "220px", // Specific width for the element
             height: "150px", // Specific height for the element
-            backgroundColor: "rgba(121, 22, 22, 1)", // Dark red background with 0.5 opacity
+            backgroundColor: "black", // Dark red background with 0.5 opacity
+
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -411,7 +412,7 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
             {" "}
             {/* Center the text and spinner vertically and horizontally */}
             <CircularProgress />
-            <Typography variant="h6" style={{ marginTop: 20, color: "black" }}>
+            <Typography variant="h6" style={{ marginTop: 20, color: "white" }}>
               Loading your stems...
             </Typography>
           </div>
@@ -438,14 +439,14 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
         >
           <IconButton
             onClick={handlePlayPause}
-            style={{ opacity: stems.length > 0 ? 1 : 0.5 }}
+            style={{ color: "#080808", opacity: stems.length > 0 ? 1 : 0.5 }}
             disabled={stems.length === 0 || isLoading}
           >
             {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
           </IconButton>
           <IconButton
             onClick={handleStop}
-            style={{ opacity: stems.length > 0 ? 1 : 0.5 }}
+            style={{ color: "#080808", opacity: stems.length > 0 ? 1 : 0.5 }}
             disabled={stems.length === 0 || isLoading}
           >
             <StopIcon />
@@ -470,6 +471,7 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
             component="div"
             color="textSecondary"
             style={{
+              color: "#0f0f0f",
               fontSize: "15px",
               fontWeight: "550",
               borderRadius: "10px",
@@ -497,6 +499,7 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
             xs={12}
             key={index}
             style={{
+              color: "#0f0f0f",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -507,6 +510,7 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
               variant="subtitle1"
               color="textSecondary"
               style={{
+                color: "#080808",
                 fontSize: "15px",
                 fontWeight: "550",
                 borderRadius: "10px",
