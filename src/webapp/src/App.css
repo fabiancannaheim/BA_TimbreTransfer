@@ -3,6 +3,7 @@
   padding-right: 20px;
   padding-top: 10px;
   background-image: url("Background.webp");
+  filter: saturate(80%); /* Adjust the percentage to decrease or increase saturation */
   background-size: cover; /* Ensures the image covers the entire background */
   background-position: center; /* Centers the image */
   min-height: 100vh; /* Ensures the gradient covers the full height of the viewport */

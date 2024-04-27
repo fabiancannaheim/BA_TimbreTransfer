@@ -34,7 +34,7 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
   const [isLoading, setIsLoading] = useState(false);
   const stemNames = ["Vocals", "Drums", "Bass", "Accompaniment"];
   const getSliderColor = (index) => {
-    const colors = ["#ff9800", "#ff9800", "#ff9800", "#ff9800"]; // Example colors: Red, Blue, Purple, Green
+    const colors = ["#FF8300", "#D10000", "#ffc000", "#9F2B00"]; // Example colors: Red, Blue, Purple, Green
     return colors[index % colors.length]; // Repeat colors if there are more sliders than colors
   };
 
@@ -395,7 +395,7 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
             transform: "translate(-50%, -50%)", // Offset the element to the center of the viewport
             width: "220px", // Specific width for the element
             height: "150px", // Specific height for the element
-            backgroundColor: "black", // Dark red background with 0.5 opacity
+            backgroundColor: "#A30000", // Dark red background with 0.5 opacity
 
             display: "flex",
             justifyContent: "center",
@@ -412,7 +412,7 @@ const AudioPlayer = ({ onSongUploaded, selectedSinger }) => {
             {" "}
             {/* Center the text and spinner vertically and horizontally */}
             <CircularProgress />
-            <Typography variant="h6" style={{ marginTop: 20, color: "white" }}>
+            <Typography variant="h6" style={{ marginTop: 20, color: "black" }}>
               Loading your stems...
             </Typography>
           </div>
