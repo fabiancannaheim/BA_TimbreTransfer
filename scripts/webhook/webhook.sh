@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 # Navigate to the Git repository and pull the latest changes
 cd /home/ubuntu/BA_TimbreTransfer
 git pull
